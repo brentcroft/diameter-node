@@ -1,0 +1,96 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.brentcroft.diameter</groupId>
+	<artifactId>diameter-node</artifactId>
+	<version>0.0.1</version>
+
+	<name>Brentcroft Diameter Node</name>
+
+	<properties>
+		<log4j.version>1.2.17</log4j.version>
+		<log4j.version>2.13.0</log4j.version>
+		<slf4j.version>1.5.8</slf4j.version>
+
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+
+		<jdiameter.version>1.7.1-123</jdiameter.version>
+
+		<juel.version>2.2.7</juel.version>
+
+		<jgiven.version>0.18.2</jgiven.version>
+		<junit.version>RELEASE</junit.version>
+	</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.mobicents.diameter</groupId>
+			<artifactId>jdiameter-api</artifactId>
+			<version>${jdiameter.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.mobicents.diameter</groupId>
+			<artifactId>jdiameter-impl</artifactId>
+			<version>${jdiameter.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+
+		<!-- -->
+		<dependency>
+			<groupId>de.odysseus.juel</groupId>
+			<artifactId>juel-impl</artifactId>
+			<version>${juel.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>de.odysseus.juel</groupId>
+			<artifactId>juel-api</artifactId>
+			<version>${juel.version}</version>
+		</dependency>
+		<!--
+			TEST ONLY
+		-->
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.tngtech.jgiven</groupId>
+			<artifactId>jgiven-junit</artifactId>
+			<version>${jgiven.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<!--
+			PROVIDED ONLY
+		-->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>RELEASE</version>
+			<scope>provided</scope>
+		</dependency>
+
+	</dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+			</plugin>
+		</plugins>
+	</build>
+</project>
