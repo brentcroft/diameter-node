@@ -1,13 +1,11 @@
-<Configuration xmlns="http://www.jdiameter.org/jdiameter-server">
+<Configuration xmlns="http://www.jdiameter.org/jdiameter-client">
 
 	<LocalPeer>
-		<URI value="aaa://localhost:3868"/>
-		<IPAddresses>
-			<IPAddress value="127.0.0.1"/>
-		</IPAddresses>
+		<URI value="aaa://localhost:3698"/>
+		<IPAddress value="127.0.0.1"/>
 		<Realm value="brentcroft.com"/>
 		<VendorID value="0"/>
-		<ProductName value="brentcroft-diameter-server"/>
+		<ProductName value="brentcroft-diameter-client"/>
 		<FirmwareRevision value="1"/>
 
 		<Applications>
@@ -20,9 +18,6 @@
 	</LocalPeer>
 
 	<Parameters>
-		<AcceptUndefinedPeer value="true"/>
-		<DuplicateProtection value="true"/>
-		<DuplicateTimer value="240000"/>
 		<QueueSize value="10000"/>
 		<MessageTimeOut value="60000"/>
 		<StopTimeOut value="10000"/>
@@ -35,7 +30,7 @@
 
 	<Network>
 		<Peers>
-			<Peer name="aaa://localhost:3698" attempt_connect="false" rating="1"/>
+			<Peer name="aaa://localhost:3868" rating="1"/>
 		</Peers>
 		<Realms>
 			<Realm name="brentcroft.com" peers="127.0.0.1" local_action="LOCAL" dynamic="false" exp_time="1">

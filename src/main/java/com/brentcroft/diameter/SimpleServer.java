@@ -5,11 +5,12 @@ import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.jdiameter.api.*;
 import org.jdiameter.client.impl.DictionarySingleton;
-import org.jdiameter.client.impl.helpers.XMLConfiguration;
 import org.jdiameter.server.impl.StackImpl;
+import org.jdiameter.server.impl.helpers.XMLConfiguration;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import static com.brentcroft.tools.el.ELTemplateManager.getLocalFileURL;
 import static java.lang.String.format;
@@ -17,9 +18,14 @@ import static java.lang.String.format;
 @Getter
 @Setter
 @Log4j2
-public class SimpleNode extends StackImpl implements Stack
+public class SimpleServer extends StackImpl implements Stack
 {
-    public SimpleNode( Configuration config, NetworkReqListener networkReqListener )
+    private static final long VENDOR_ID = 0L;
+    private static final long AUTH_APP_ID = 4L;
+    private static final int DEFAULT_STACK_CREATION_TIMEOUT_MS = 30000;
+
+
+    public SimpleServer( Configuration config, NetworkReqListener networkReqListener )
     {
         try
         {
@@ -59,18 +65,22 @@ public class SimpleNode extends StackImpl implements Stack
         {
             installDictionary( dictionaryUri );
 
-            SimpleStack stack = new SimpleStack();
+            SimpleStackListener stackListener = new SimpleStackListener();
 
-            stack.setStack(
-                    new SimpleNode(
-                            new XMLConfiguration(
-                                    getLocalFileURL( SimpleNode.class, diameterConfig )
-                                            .openStream() ),
-                            stack ) );
+            stackListener.setDiameterRequestProcessor( processor );
 
-            stack.setDiameterRequestProcessor( processor );
+            SimpleServer server = new SimpleServer(
+                    new XMLConfiguration(
+                            getLocalFileURL( SimpleServer.class, diameterConfig )
+                                    .openStream() ),
+                    stackListener );
 
-            stack.start();
+
+            Network network = server.unwrap( Network.class );
+
+            network.addNetworkReqListener( stackListener, ApplicationId.createByAuthAppId( VENDOR_ID, AUTH_APP_ID ) );
+
+            server.start( Mode.ALL_PEERS, DEFAULT_STACK_CREATION_TIMEOUT_MS, TimeUnit.MILLISECONDS );
         }
         catch ( Exception e )
         {
@@ -82,7 +92,7 @@ public class SimpleNode extends StackImpl implements Stack
     {
         DictionarySingleton
                 .getDictionary(
-                        getLocalFileURL( SimpleNode.class, dictionaryUri )
+                        getLocalFileURL( SimpleServer.class, dictionaryUri )
                                 .openStream() );
     }
 }

@@ -1,7 +1,7 @@
 package com.brentcroft.diameter.fixtures;
 
-import com.brentcroft.diameter.SimpleNode;
 import com.brentcroft.diameter.SimpleProcessor;
+import com.brentcroft.diameter.SimpleServer;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
@@ -36,7 +36,7 @@ public class WhenStubState extends Stage< WhenStubState >
 
     public WhenStubState install_avp_dictionary() throws IOException
     {
-        SimpleNode.installDictionary( dictionaryUri );
+        SimpleServer.installDictionary( dictionaryUri );
 
         return self();
     }
