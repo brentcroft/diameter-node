@@ -10,19 +10,16 @@
 	<name>Brentcroft Diameter Node</name>
 
 	<properties>
-		<log4j.version>1.2.17</log4j.version>
-		<log4j.version>2.13.0</log4j.version>
-		<slf4j.version>1.5.8</slf4j.version>
-
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-
 		<jdiameter.version>1.7.1-123</jdiameter.version>
-
 		<juel.version>2.2.7</juel.version>
-
+		<!-- -->
+		<log4j.version>2.13.0</log4j.version>
+		<!-- -->
 		<jgiven.version>0.18.2</jgiven.version>
 		<junit.version>RELEASE</junit.version>
+		<!-- -->
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
 	</properties>
 
 	<dependencies>
@@ -65,6 +62,7 @@
 			<version>${junit.version}</version>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>com.tngtech.jgiven</groupId>
 			<artifactId>jgiven-junit</artifactId>
@@ -90,6 +88,28 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<version>3.1.1</version>
+				<executions>
+					<execution>
+						<id>copy-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}</outputDirectory>
+							<includeScope>runtime</includeScope>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

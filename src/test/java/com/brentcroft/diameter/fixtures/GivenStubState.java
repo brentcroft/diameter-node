@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 public class GivenStubState extends Stage< GivenStubState >
 {
     @ProvidedScenarioState
-    String diameterConfig = "diameter/config-server.xml";
+    String diameterConfig = "diameter/server.xml";
 
     @ProvidedScenarioState
     String dictionaryUri = "diameter/dictionary.xml";
