@@ -216,7 +216,7 @@ public class SimpleProcessor implements DiameterRequestProcessor
     }
 
 
-    public String serializeRequest( Request request )
+    public static String serializeRequest( Request request )
     {
 
         RequestInputSource rsi = new RequestInputSource();
@@ -243,8 +243,12 @@ public class SimpleProcessor implements DiameterRequestProcessor
         return stringWriter.toString();
     }
 
-    public String serializeAnswer( Answer answer )
+    public static String serializeAnswer( Answer answer )
     {
+        if (isNull( answer ))
+        {
+            return "null";
+        }
 
         AnswerInputSource asi = new AnswerInputSource();
         asi.setAnswer( answer );
@@ -270,7 +274,7 @@ public class SimpleProcessor implements DiameterRequestProcessor
         return stringWriter.toString();
     }
 
-    private Transformer configuredTransformer() throws TransformerConfigurationException
+    private static Transformer configuredTransformer() throws TransformerConfigurationException
     {
         Transformer transformer = TransformerFactory
                 .newInstance()

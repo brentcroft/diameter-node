@@ -45,8 +45,7 @@ public class DiameterReader extends AbstractXMLReader implements Items
 
         ATTR.NETWORK_REQUEST.setAttribute( atts, NAMESPACE_URI, String.valueOf( request.isNetworkRequest() ) );
 
-        String tag = TAG.ANSWER.getTag();
-
+        String tag = TAG.REQUEST.getTag();
         ch.startElement( NAMESPACE_URI, tag, tag, atts );
 
         parse( request.getApplicationIdAvps() );
@@ -66,15 +65,12 @@ public class DiameterReader extends AbstractXMLReader implements Items
         AttributesImpl atts = getCommonAttributes( answer );
 
         String tag = TAG.ANSWER.getTag();
-
         ch.startElement( NAMESPACE_URI, tag, tag, atts );
 
         parse( answer.getApplicationIdAvps() );
-
         parse( answer.getAvps() );
 
         ch.endElement( NAMESPACE_URI, tag, tag );
-
         ch.endDocument();
     }
 
@@ -83,7 +79,6 @@ public class DiameterReader extends AbstractXMLReader implements Items
         AttributesImpl atts = new AttributesImpl();
 
         ATTR.APPLICATION_ID.setAttribute( atts, NAMESPACE_URI, String.valueOf( message.getApplicationId() ) );
-
         ATTR.COMMAND_CODE.setAttribute( atts, NAMESPACE_URI, String.valueOf( message.getCommandCode() ) );
 
         if ( message.getEndToEndIdentifier() != 0 )

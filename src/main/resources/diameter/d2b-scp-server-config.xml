@@ -1,14 +1,16 @@
 <?xml version="1.0"?>
+
+
 <Configuration xmlns="http://www.jdiameter.org/jdiameter-server">
 
 	<LocalPeer>
-		<URI value="localhost:3867"/>
+		<URI value="aaa://localhost:3868"/>
 		<IPAddresses>
 			<IPAddress value="127.0.0.1"/>
 		</IPAddresses>
-		<Realm value="server.brentcroft.com"/>
+		<Realm value="invigorateRTB"/>
 		<VendorID value="0"/>
-		<ProductName value="brentcroft-diameter-client"/>
+		<ProductName value="invigorateX"/>
 		<FirmwareRevision value="1"/>
 
 		<Applications>
@@ -36,10 +38,10 @@
 
 	<Network>
 		<Peers>
-			<Peer name="localhost:3698" attempt_connect="false" rating="1"/>
+			<Peer name="aaa://localhost:3698" attempt_connect="false" rating="1"/>
 		</Peers>
 		<Realms>
-			<Realm name="client.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
+			<Realm name ="invigorateJavaClient" peers="127.0.0.1" local_action="LOCAL" dynamic="false" exp_time="1">
 				<ApplicationID>
 					<VendorId value="0"/>
 					<AuthApplId value="4"/>

@@ -20,7 +20,7 @@ public class SimpleProcessorTest extends ScenarioTest< GivenStubState, WhenStubS
                         ApplicationId.createByAuthAppId( 0, 0 ),
                         ApplicationId.createByAuthAppId( 12429, 27 )
                 )
-                .simple_processor( "responses/basic-answer.jstl" );
+                .simple_processor( "answers/basic-answer.jstl" );
 
         when()
                 .get_answer_text();

@@ -1,0 +1,35 @@
+<request application-id="4" command-code="272" end-to-end-identifier="1245708856" hop-by-hop-identifier="308207772" session-id="localhost;369;308207535" version="1" network-request="false">
+    <avp code="293" name="Destination-Host" value="localhost"/>
+
+    <avp name="Route-Record" code="282"/>
+
+    <avp code="461" type="UTF8String" name="Service-Context-Id" value="16.0.0@newnet.com"/>
+    <avp code="416" type="Integer32" name="CC-Request-Type" value="4"/>
+    <avp code="415" type="Unsigned32" name="CC-Request-Number" value="0"/>
+    <avp code="443" type="Grouped" name="Subscription-Id">
+        <avp code="444" type="UTF8String" name="Subscription-Id-Data" value="447666137186"/>
+        <avp code="450" type="Integer32" name="Subscription-Id-Type" value="0"/>
+    </avp>
+    <avp code="436" type="Integer32" name="Requested-Action" value="0"/>
+    <avp code="7000" vendor-id="12429" type="UTF8String" name="Transaction-Id" value="F4000000250320DAD2B"/>
+    <avp code="455" type="Integer32" name="Multiple-Services-Indicator" value="1"/>
+    <avp code="456" type="Grouped" name="Multiple-Services-Credit-Control">
+        <avp code="7050" vendor-id="12429" type="Unsigned32" name="Call-Type" value="22"/>
+        <avp code="7051" vendor-id="12429" type="Integer32" name="Event-Sub-Type" value="0"/>
+        <avp code="7052" vendor-id="12429" type="Grouped" name="Destination">
+            <avp code="7053" vendor-id="12429" type="Unsigned32" name="Destination-Type" value="1"/>
+            <avp code="7054" vendor-id="12429" type="UTF8String" name="Destination-Value" value="0000500049"/>
+            <avp code="7055" vendor-id="12429" type="Unsigned32" name="Destination-Format" value="4"/>
+        </avp>
+        <avp code="7056" vendor-id="12429" type="Grouped" name="External-Price">
+            <avp code="7026" vendor-id="12429" type="Unsigned32" name="Money-Integer" value="0"/>
+            <avp code="7027" vendor-id="12429" type="UTF8String" name="Money-Fractional" value="05"/>
+        </avp>
+    </avp>
+    <avp code="7048" vendor-id="12429" type="Integer32" name="Reversal-Allowed" value="1"/>
+    <avp code="7047" vendor-id="12429" type="Integer32" name="Block-Notification" value="1"/>
+    <avp code="7040" vendor-id="12429" type="Grouped" name="Cdr-Information">
+        <avp code="7043" vendor-id="12429" type="UTF8String" name="Retailer-Name" value="Test Merchant 001"/>
+        <avp code="7044" vendor-id="12429" type="UTF8String" name="Information" value="Blah, blah"/>
+    </avp>
+</request>

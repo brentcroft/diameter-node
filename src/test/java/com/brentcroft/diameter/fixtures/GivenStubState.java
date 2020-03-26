@@ -18,7 +18,7 @@ public class GivenStubState extends Stage< GivenStubState >
     String dictionaryUri = "diameter/dictionary.xml";
 
     @ProvidedScenarioState
-    String templateUri = "responses/basic-answer.jstl";
+    String templateUri = "answers/basic-answer.jstl";
 
     @ProvidedScenarioState
     Request request;

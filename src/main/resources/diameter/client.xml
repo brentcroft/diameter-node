@@ -1,9 +1,10 @@
+<?xml version="1.0"?>
 <Configuration xmlns="http://www.jdiameter.org/jdiameter-client">
 
 	<LocalPeer>
-		<URI value="aaa://localhost:3698"/>
+		<URI value="localhost:3698"/>
 		<IPAddress value="127.0.0.1"/>
-		<Realm value="brentcroft.com"/>
+		<Realm value="client.brentcroft.com"/>
 		<VendorID value="0"/>
 		<ProductName value="brentcroft-diameter-client"/>
 		<FirmwareRevision value="1"/>
@@ -30,10 +31,10 @@
 
 	<Network>
 		<Peers>
-			<Peer name="aaa://localhost:3868" rating="1"/>
+			<Peer name="localhost:3867" rating="0" ip="127.0.0.1"/>
 		</Peers>
 		<Realms>
-			<Realm name="brentcroft.com" peers="127.0.0.1" local_action="LOCAL" dynamic="false" exp_time="1">
+			<Realm name="server.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
 				<ApplicationID>
 					<VendorId value="0"/>
 					<AuthApplId value="4"/>

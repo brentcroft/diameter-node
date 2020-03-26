@@ -116,7 +116,7 @@ public class StringUpcaster
         {
             // This cast is necessary
             // type.cast( (Enum) Enum.valueOf( ( Class< Enum > ) type, rawValue ) );
-            return type.cast( Enum.valueOf( ( Class< Enum > ) type, rawValue ) );
+            return type.cast( (Enum) Enum.valueOf( ( Class< Enum > ) type, rawValue ) );
         }
 
         throw new IllegalArgumentException( "No conversion class found for type [" + type.getCanonicalName() + "]" );
