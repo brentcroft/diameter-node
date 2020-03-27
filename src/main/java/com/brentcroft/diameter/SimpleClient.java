@@ -9,7 +9,6 @@ import org.jdiameter.api.*;
 import org.jdiameter.client.impl.DictionarySingleton;
 import org.jdiameter.client.impl.StackImpl;
 import org.jdiameter.client.impl.helpers.XMLConfiguration;
-import org.jdiameter.client.impl.parser.MessageParser;
 import org.xml.sax.InputSource;
 
 import javax.xml.transform.Transformer;
@@ -19,12 +18,10 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 import java.io.IOException;
 import java.io.StringReader;
-import java.net.URL;
-import java.util.Random;
 import java.util.function.Supplier;
 
-import static com.brentcroft.diameter.SimpleProcessor.serializeAnswer;
-import static com.brentcroft.diameter.SimpleProcessor.serializeRequest;
+import static com.brentcroft.diameter.DiameterRequestProcessor.serializeAnswer;
+import static com.brentcroft.diameter.DiameterRequestProcessor.serializeRequest;
 import static com.brentcroft.tools.el.ELTemplateManager.getLocalFileURL;
 import static com.brentcroft.tools.jstl.MapBindings.jstl;
 import static java.lang.String.format;
@@ -52,7 +49,7 @@ public class SimpleClient extends StackImpl implements Stack
         }
     }
 
-    public void sendRequest( Request request, EventListener<Request, Answer> listener )
+    public void sendRequest( Request request, EventListener< Request, Answer > listener )
     {
         try
         {
@@ -67,9 +64,9 @@ public class SimpleClient extends StackImpl implements Stack
 
     public static void main( String[] args )
     {
-        String diameterConfig = "diameter/d2b-bbc-client-config.xml";
+        String diameterConfig = "diameter/client.xml";
         String dictionaryUri = "diameter/dictionary.xml";
-        String templateUri = "requests/d2b-bbc-client.jstl";
+        String templateUri = "requests/basic-request.jstl";
 
         try
         {
@@ -106,14 +103,15 @@ public class SimpleClient extends StackImpl implements Stack
 
     private void sendMessages() throws InternalException
     {
+        String sessionId = "" + System.currentTimeMillis();
+        int code = 272;
+        String destRealm = "server.brentcroft.com";
+
         long vendorId = 0;
         long authApplicationId = 4;
 
         ApplicationId applicationId = ApplicationId.createByAuthAppId( vendorId, authApplicationId );
 
-        String sessionId = "" + System.currentTimeMillis();
-        int code = 272;
-        String destRealm = "invigorateRTB";
 
         Request request = factory.getNewSession( sessionId ).createRequest( code, applicationId, destRealm );
 
@@ -140,7 +138,7 @@ public class SimpleClient extends StackImpl implements Stack
                 );
     }
 
-    public Request buildRequest( Request request, String requestXmlText )
+    public void buildRequest( Request request, String requestXmlText )
     {
         try
         {
@@ -157,14 +155,11 @@ public class SimpleClient extends StackImpl implements Stack
             transformResult.setHandler( diameterWriter );
 
             transformer.transform( saxSource, transformResult );
-
-            return diameterWriter.getRequest();
         }
         catch ( TransformerException e )
         {
-            e.printStackTrace();
+            throw new RuntimeException( e );
         }
-        return null;
     }
 
 
@@ -172,25 +167,25 @@ public class SimpleClient extends StackImpl implements Stack
     {
         try
         {
-            Session session = factory.getNewSession( request.getSessionId() );
-            final Answer[] answers = new Answer[1];
-            final boolean[] timedout = new boolean[]{ false };
-            session.send( request, new EventListener<Request, Answer>()
+            final Answer[] answers = new Answer[ 1 ];
+            final boolean[] timedout = new boolean[]{false};
+
+            sendRequest( request, new EventListener< Request, Answer >()
             {
                 public void receivedSuccessMessage( Request request, Answer answer )
                 {
-                    answers[0] = answer;
+                    answers[ 0 ] = answer;
                 }
 
                 public void timeoutExpired( Request request )
                 {
-                    timedout[0] = true;
+                    timedout[ 0 ] = true;
                 }
             } );
 
-            new WaitUntil( 50, 5 * 1000, () -> answers[0] != null || timedout[0] );
+            new WaitUntil( 50, 10 * 1000, () -> answers[ 0 ] != null || timedout[ 0 ] );
 
-            return answers[0];
+            return answers[ 0 ];
         }
         catch ( Exception var5 )
         {
@@ -198,13 +193,13 @@ public class SimpleClient extends StackImpl implements Stack
         }
     }
 
-    public class WaitUntil
+    public static class WaitUntil
     {
         private final long increment;
         private final long maxWait;
-        private Supplier<Boolean> until;
+        private Supplier< Boolean > until;
 
-        public WaitUntil( long increment, long maxWait, Supplier<Boolean> until )
+        public WaitUntil( long increment, long maxWait, Supplier< Boolean > until )
         {
             this.increment = increment;
             this.maxWait = maxWait;
@@ -217,7 +212,7 @@ public class SimpleClient extends StackImpl implements Stack
         {
             final long startedWaiting = System.currentTimeMillis();
 
-            while ( !until.get() && System.currentTimeMillis() - startedWaiting < this.maxWait )
+            while ( ! until.get() && System.currentTimeMillis() - startedWaiting < this.maxWait )
             {
                 try
                 {

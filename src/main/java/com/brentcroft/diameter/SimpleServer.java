@@ -53,7 +53,7 @@ public class SimpleServer extends StackImpl implements Stack
 
     public static void main( String[] args )
     {
-        String diameterConfig = "diameter/d2b-scp-server-config.xml";
+        String diameterConfig = "diameter/server.xml";
         String dictionaryUri = "diameter/dictionary.xml";
         String templateUri = "answers/basic-answer.jstl";
 
