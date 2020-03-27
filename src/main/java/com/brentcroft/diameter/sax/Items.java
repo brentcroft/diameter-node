@@ -32,7 +32,10 @@ public interface Items
         AUTH_APP_ID( "auth-app-id" ),
         TYPE( "type" ),
         NAME( "name" ),
-        DESCRIPTION( "description" );
+        DESCRIPTION( "description" ),
+        DICTIONARY_URI( "dictionary-uri" ),
+        DIAMETER_CONFIG_URI( "diameter-config-uri" ),
+        TEMPLATE_URI( "template-uri" );
 
         private final String attr;
 

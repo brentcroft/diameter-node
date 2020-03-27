@@ -1,6 +1,6 @@
 package com.brentcroft.diameter.fixtures;
 
-import com.brentcroft.diameter.SimpleProcessor;
+import com.brentcroft.diameter.JSTLProcessor;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 import org.jdiameter.api.ApplicationId;
@@ -12,7 +12,7 @@ import static java.util.Arrays.asList;
 public class GivenStubState extends Stage< GivenStubState >
 {
     @ProvidedScenarioState
-    String diameterConfig = "diameter/server.xml";
+    String diameterConfig = "diameter/server-stack-config.xml";
 
     @ProvidedScenarioState
     String dictionaryUri = "diameter/dictionary.xml";
@@ -24,7 +24,7 @@ public class GivenStubState extends Stage< GivenStubState >
     Request request;
 
     @ProvidedScenarioState
-    SimpleProcessor processor;
+    JSTLProcessor processor;
 
 
     public GivenStubState avp_dictionary_path( String dictionaryUri )
@@ -55,7 +55,7 @@ public class GivenStubState extends Stage< GivenStubState >
 
     public GivenStubState simple_processor( String templateUri )
     {
-        this.processor = new SimpleProcessor();
+        this.processor = new JSTLProcessor();
         this.processor.setTemplateUri( templateUri );
         return self();
     }

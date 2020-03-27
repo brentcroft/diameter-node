@@ -1,14 +1,11 @@
 package com.brentcroft.diameter.fixtures;
 
-import com.brentcroft.diameter.SimpleProcessor;
-import com.brentcroft.diameter.SimpleServer;
+import com.brentcroft.diameter.JSTLProcessor;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 import org.jdiameter.api.Answer;
 import org.jdiameter.api.Request;
-
-import java.io.IOException;
 
 public class WhenStubState extends Stage< WhenStubState >
 {
@@ -31,20 +28,13 @@ public class WhenStubState extends Stage< WhenStubState >
     Answer answer;
 
     @ExpectedScenarioState
-    SimpleProcessor processor;
+    JSTLProcessor processor;
 
-
-    public WhenStubState install_avp_dictionary() throws IOException
-    {
-        SimpleServer.installDictionary( dictionaryUri );
-
-        return self();
-    }
 
 
     public WhenStubState get_answer_text()
     {
-        answerText = processor.getAnswer( request );
+        answerText = processor.getAnswerText( request );
 
         return self();
     }

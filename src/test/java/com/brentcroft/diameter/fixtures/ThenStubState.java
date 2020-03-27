@@ -1,6 +1,6 @@
 package com.brentcroft.diameter.fixtures;
 
-import com.brentcroft.diameter.SimpleProcessor;
+import com.brentcroft.diameter.JSTLProcessor;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import org.jdiameter.api.Answer;
@@ -20,7 +20,7 @@ public class ThenStubState extends Stage< ThenStubState >
     String templateUri;
 
     @ExpectedScenarioState
-    SimpleProcessor processor;
+    JSTLProcessor processor;
 
     @ExpectedScenarioState
     Answer answer;

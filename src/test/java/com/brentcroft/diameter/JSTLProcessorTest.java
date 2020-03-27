@@ -9,7 +9,7 @@ import org.jdiameter.api.AvpDataException;
 import org.junit.Test;
 
 
-public class SimpleProcessorTest extends ScenarioTest< GivenStubState, WhenStubState, ThenStubState >
+public class JSTLProcessorTest extends ScenarioTest< GivenStubState, WhenStubState, ThenStubState >
 {
     @Test
     public void gets_answer_text() throws AvpDataException

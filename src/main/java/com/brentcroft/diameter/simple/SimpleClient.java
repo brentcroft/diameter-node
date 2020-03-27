@@ -1,5 +1,6 @@
-package com.brentcroft.diameter;
+package com.brentcroft.diameter.simple;
 
+import com.brentcroft.diameter.DiameterModel;
 import com.brentcroft.diameter.sax.DiameterWriter;
 import com.brentcroft.tools.jstl.MapBindings;
 import lombok.Getter;
@@ -113,20 +114,43 @@ public class SimpleClient extends StackImpl implements Stack
         ApplicationId applicationId = ApplicationId.createByAuthAppId( vendorId, authApplicationId );
 
 
-        Request request = factory.getNewSession( sessionId ).createRequest( code, applicationId, destRealm );
+        Session session = factory.getNewSession( sessionId );
 
-        MapBindings model = new MapBindings();
+        {
+            Request request = session.createRequest( code, applicationId, destRealm );
 
-        String requestXml = getRequestXml( model );
+            MapBindings model = new MapBindings();
 
-        buildRequest( request, requestXml );
+            String requestXml = getRequestXml( model );
 
-        log.info( () -> format( "\n\nrequest: \n%s\n", serializeRequest( request ) ) );
+            buildRequest( request, requestXml );
 
-        Answer answer = sendRequest( request );
+            log.info( () -> format( "\n\nrequest: \n%s\n", serializeRequest( request ) ) );
 
-        log.info( () -> format( "\n\nanswer: \n%s\n", serializeAnswer( answer ) ) );
+            Answer answer = sendRequest( request );
 
+            log.info( () -> format( "\n\nanswer: \n%s\n", serializeAnswer( answer ) ) );
+
+            log.info( () -> String.format( "\n\nmap: \n%s\n", DiameterModel.toString( DiameterModel.getModel( answer ), "\t" ) ) );
+        }
+
+        {
+            Request request = session.createRequest( code, applicationId, destRealm );
+
+            MapBindings model = new MapBindings();
+
+            String requestXml = getRequestXml( model );
+
+            buildRequest( request, requestXml );
+
+            log.info( () -> format( "\n\nrequest: \n%s\n", serializeRequest( request ) ) );
+
+            Answer answer = sendRequest( request );
+
+            log.info( () -> format( "\n\nanswer: \n%s\n", serializeAnswer( answer ) ) );
+
+            log.info( () -> format( "\n\nmap: \n%s\n", DiameterModel.toString( DiameterModel.getModel( answer ), "\t" ) ) );
+        }
     }
 
     public String getRequestXml( MapBindings model )

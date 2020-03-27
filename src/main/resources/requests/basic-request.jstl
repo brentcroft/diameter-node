@@ -1,3 +1,4 @@
-<request proxiable="true">
+<request proxiable="true" network-request="true" command-code="272">
     <avp code="293" name="Destination-Host" value="localhost"/>
+    <avp code="9000" name="Destination-Host" value="green, blue, red"/>
 </request>

@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.xml.sax.*;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -60,10 +59,6 @@ public abstract class AbstractXMLReader implements XMLReader
         try
         {
             parse( new InputSource( new FileInputStream( uri ) ) );
-        }
-        catch ( FileNotFoundException e )
-        {
-            throw new SAXException( e );
         }
         catch ( IOException e )
         {

@@ -55,6 +55,7 @@ public class DiameterWriter extends DefaultHandler implements Items
                     ATTR.PROXIABLE, attributes,
                     v -> request.setProxiable( Boolean.parseBoolean( v ) ) );
 
+
             avpStack.push( request.getAvps() );
         }
         else if ( TAG.ANSWER.isTag( qName ) )

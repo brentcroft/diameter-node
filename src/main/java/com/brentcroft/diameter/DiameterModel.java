@@ -10,18 +10,19 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
+import static java.util.Objects.nonNull;
 import static java.util.Optional.ofNullable;
 
 @Log4j2
 public class DiameterModel
 {
-    public static Map<String, Object> getModel( Request request )
+    public static Map< String, Object > getModel( Request request )
     {
-        final Map<String, Object> model = new HashMap<>();
+        final Map< String, Object > model = new HashMap<>();
 
         try
         {
-            Map<String, Object> req = new HashMap<>();
+            Map< String, Object > req = new HashMap<>();
 
             req.put( "networkRequest", request.isNetworkRequest() );
 
@@ -37,62 +38,72 @@ public class DiameterModel
         return model;
     }
 
-    public static Map<String, Object> getModel( Answer answer )
+    public static Map< String, Object > getModel( Answer answer )
     {
-        final Map<String, Object> model = new HashMap<>();
+        final Map< String, Object > model = new HashMap<>();
 
-        try
+        if ( nonNull( answer ) )
         {
-            Map<String, Object> req = new HashMap<>();
+            try
+            {
+                Map< String, Object > req = new HashMap<>();
 
-            req.put( "resultCode", answer.getResultCode() );
+                req.put( "resultCode", answer.getResultCode() );
 
-            parseMessage( answer, req );
+                parseMessage( answer, req );
 
-            model.put( "answer", req );
+                model.put( "answer", req );
+            }
+            catch ( AvpDataException e )
+            {
+                e.printStackTrace();
+            }
         }
-        catch ( AvpDataException e )
-        {
-            e.printStackTrace();
-        }
-
         return model;
     }
 
+    public static String toString( Map< ?, ? > model )
+    {
+        return toString( model, "\t" );
+    }
 
-    public static String toString( Map<?, ?> model, String indent )
+    public static String toString( Map< ?, ? > model, String indent )
     {
         return "{\n" + model.entrySet().stream()
-                            .map( e -> indent + "\"" + e.getKey() + "\"" + ":" + valueOrMap( e.getValue(), indent ) )
-                            .collect( Collectors.joining( ", \n" ) ) + "}";
+                .map( e -> indent + "\"" + e.getKey() + "\"" + ":" + valueOrMap( e.getValue(), indent ) )
+                .collect( Collectors.joining( ", \n" ) ) + "}";
     }
 
     public static Object valueOrMap( Object value, String indent )
     {
         if ( value instanceof Map )
         {
-            return toString( (Map<?, ?>) value, indent + "\t" );
+            return toString( ( Map< ?, ? > ) value, indent + "\t" );
+        }
+        else if ( nonNull( value ) )
+        {
+            return "\"" + value.toString().replaceAll( "\"", "\\\"" ) + "\"";
         }
         else
         {
-            return "\"" + value + "\"";
+            return "\"null\"";
         }
     }
 
-    private static void parseMessage( Message message, Map<String, Object> model ) throws AvpDataException
+    private static void parseMessage( Message message, Map< String, Object > model ) throws AvpDataException
     {
         model.put( "commandCode", message.getCommandCode() );
         model.put( "applicationId", message.getApplicationId() );
         model.put( "version", message.getVersion() );
 
-        List<Map<String, Object>> applicationIds = new ArrayList<>();
+        List< Map< String, Object > > applicationIds = new ArrayList<>();
 
         ofNullable( message.getApplicationIdAvps() )
                 .orElse( Collections.emptyList() )
                 .stream()
                 .filter( Objects::nonNull )
                 .forEach( appId -> {
-                    Map<String, Object> applicationId = new HashMap<>();
+                    Map< String, Object > applicationId = new HashMap<>();
                     applicationId.put( "vendorId", appId.getVendorId() );
                     applicationId.put( "authAppId", appId.getAuthAppId() );
                     applicationId.put( "acctAppId", appId.getAcctAppId() );
@@ -101,13 +112,13 @@ public class DiameterModel
 
         model.put( "applicationIds", applicationIds );
 
-        Map<String, Object> avps = new HashMap<>();
+        Map< String, Object > avps = new HashMap<>();
         parseAvps( message.getAvps(), avps );
         model.put( "avps", avps );
     }
 
 
-    private static void parseAvps( AvpSet avps, Map<String, Object> model ) throws AvpDataException
+    private static void parseAvps( AvpSet avps, Map< String, Object > model ) throws AvpDataException
     {
         if ( isNull( avps ) )
         {
@@ -162,7 +173,7 @@ public class DiameterModel
                     break;
 
                 case "Grouped":
-                    Map<String, Object> childAvps = new HashMap<>();
+                    Map< String, Object > childAvps = new HashMap<>();
                     parseAvps( avp.getGrouped(), childAvps );
                     model.put( toMemberName( avpRep.getName() ), childAvps );
                     break;

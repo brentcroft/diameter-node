@@ -8032,14 +8032,20 @@
     <avpdefn name="Reversal" code="7057" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
         <type type-name="Enumerated" />
     </avpdefn>
-    <avpdefn name="Extended-Friends-Number-Balance" code="7058" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Extended-Friends-Number" code="7059" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
+    <avpdefn name="Extended-Friends-Number-Balance" code="7058" vendor-id="InteractInc" mandatory="must"
+             protected="mustnot" may-encrypt="no" vendor-bit="must"/>
+    <avpdefn name="Extended-Friends-Number" code="7059" vendor-id="InteractInc" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="UTF8String"/>
     </avpdefn>
-    <avpdefn name="Extended-Friends-Balance" code="7060" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
+    <avpdefn name="Extended-Friends-Balance" code="7060" vendor-id="InteractInc" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
     </avpdefn>
 
 
-
+    <avpdefn name="Alpha-Beta-Gamma" code="9000" vendor-id="0" mandatory="must" protected="mustnot" may-encrypt="no"
+             vendor-bit="must">
+        <type type-name="UTF8String"/>
+    </avpdefn>
 </dictionary>
