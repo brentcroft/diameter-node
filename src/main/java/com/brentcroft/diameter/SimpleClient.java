@@ -195,28 +195,15 @@ public class SimpleClient extends StackImpl implements Stack
 
     public static class WaitUntil
     {
-        private final long increment;
-        private final long maxWait;
-        private Supplier< Boolean > until;
-
         public WaitUntil( long increment, long maxWait, Supplier< Boolean > until )
-        {
-            this.increment = increment;
-            this.maxWait = maxWait;
-            this.until = until;
-
-            start();
-        }
-
-        private void start()
         {
             final long startedWaiting = System.currentTimeMillis();
 
-            while ( ! until.get() && System.currentTimeMillis() - startedWaiting < this.maxWait )
+            while ( ! until.get() && System.currentTimeMillis() - startedWaiting < maxWait )
             {
                 try
                 {
-                    Thread.sleep( this.increment );
+                    Thread.sleep( increment );
                 }
                 catch ( InterruptedException e )
                 {

@@ -44,7 +44,7 @@ public class SimpleProcessor implements DiameterRequestProcessor
 
         log.info( () -> format( "\n\nrequest: \n%s\n", DiameterRequestProcessor.serializeRequest( request ) ) );
 
-        log.info( () -> format( "\n\nmap: \n%s\n", DiameterModel.getModel( request ) ) );
+        log.info( () -> format( "\n\nmap: \n%s\n", DiameterModel.toString( DiameterModel.getModel( request ), "" ) ) );
 
         try
         {
