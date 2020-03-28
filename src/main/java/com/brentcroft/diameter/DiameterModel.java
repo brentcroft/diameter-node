@@ -67,26 +67,30 @@ public class DiameterModel
         return toString( model, "\t" );
     }
 
-    public static String toString( Map< ?, ? > model, String indent )
+    private static String toString( Map< ?, ? > model, String indent )
     {
         return "{\n" + model.entrySet().stream()
-                .map( e -> indent + "\"" + e.getKey() + "\"" + ":" + valueOrMap( e.getValue(), indent ) )
+                .map( e -> indent + e.getKey() + ": " + valueOrMap( e.getValue(), indent ) )
                 .collect( Collectors.joining( ", \n" ) ) + "}";
     }
 
-    public static Object valueOrMap( Object value, String indent )
+    private static Object valueOrMap( Object value, String indent )
     {
         if ( value instanceof Map )
         {
             return toString( ( Map< ?, ? > ) value, indent + "\t" );
         }
-        else if ( nonNull( value ) )
+        if ( value instanceof String )
         {
             return "\"" + value.toString().replaceAll( "\"", "\\\"" ) + "\"";
         }
+        else if ( nonNull( value ) )
+        {
+            return value.toString();
+        }
         else
         {
-            return "\"null\"";
+            return "null";
         }
     }
 

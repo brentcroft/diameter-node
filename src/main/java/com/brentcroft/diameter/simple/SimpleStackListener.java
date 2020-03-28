@@ -23,8 +23,10 @@ public class SimpleStackListener implements NetworkReqListener, EventListener< R
     {
         log.info( () -> format( "Received: [%s]", request ) );
 
-        log.debug( () -> format( "\nrequest: \n%s\n", DiameterRequestProcessor.serializeRequest( request ) ) );
-        log.debug( () -> format( "\nmap: \n%s\n", DiameterModel.toString( DiameterModel.getModel( request ) ) ) );
+        log.debug( () -> format(
+                "request: \n%s\nmodel: %s",
+                DiameterRequestProcessor.serializeRequest( request ),
+                DiameterModel.toString( DiameterModel.getModel( request ) ) ) );
 
         try
         {
@@ -35,8 +37,10 @@ public class SimpleStackListener implements NetworkReqListener, EventListener< R
 
             Answer answer = diameterRequestProcessor.processRequest( request );
 
-            log.debug( () -> format( "\nanswer: \n%s\n", DiameterRequestProcessor.serializeAnswer( answer ) ) );
-            log.debug( () -> format( "\nmap: \n%s\n", DiameterModel.toString( DiameterModel.getModel( answer ) ) ) );
+            log.debug( () -> format(
+                    "answer: \n%s\nmodel: %s",
+                    DiameterRequestProcessor.serializeAnswer( answer ),
+                    DiameterModel.toString( DiameterModel.getModel( answer ) ) ) );
 
             return answer;
         }

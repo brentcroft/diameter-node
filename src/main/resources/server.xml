@@ -1,0 +1,16 @@
+<server diameter-config-uri="diameter/server-stack-config.xml">
+    <!--
+
+    -->
+    <listener
+            vendor-id="0"
+            auth-app-id="4"
+            template-uri="answers/basic-answer.jstl"/>
+    <!--
+
+    -->
+    <start
+            mode="ALL_PEERS"
+            stack-creation-timeout="30000"
+            time-unit="MILLISECONDS"/>
+</server>

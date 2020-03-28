@@ -1,0 +1,60 @@
+<client
+        xmlns:c="jstl"
+        diameter-config-uri="diameter/client-stack-config.xml">
+    <!--
+
+    -->
+    <start
+            mode="ALL_PEERS"
+            stack-creation-timeout="30000"
+            time-unit="MILLISECONDS"/>
+    <!--
+
+    -->
+    <session session-id="${ c:uuid() }">
+        <applicationId vendor-id="0" auth-app-id="4">
+            <destination realm="server.brentcroft.com">
+                <request command-code="272">
+                    <avp code="293" name="Destination-Host" value="localhost"/>
+                    <send>
+                        <answer/>
+                    </send>
+                </request>
+
+
+                <request command-code="272" proxiable="true" template-uri="requests/basic-request.jstl">
+                    <send>
+                        <answer>
+                            <request command-code="272" template-uri="requests/basic-request.jstl">
+                                <send>
+                                    <answer>
+                                        <request command-code="272" template-uri="requests/basic-request.jstl">
+                                            <send>
+                                                <answer/>
+                                            </send>
+                                        </request>
+                                    </answer>
+                                </send>
+                            </request>
+                        </answer>
+                    </send>
+                </request>
+
+                <!--
+                <xrequest command-code="272">
+                    <avp code="293" name="Destination-Host" value="localhost"/>
+                    <xc:while test="${ answer.avps.responseCode != 2001 }">
+                        <send>
+                            <answer/>
+                        </send>
+                    </xc:while>
+                </xrequest>
+                -->
+            </destination>
+        </applicationId>
+    </session>
+    <!--
+
+    -->
+    <stop disconnect-cause="0"/>
+</client>

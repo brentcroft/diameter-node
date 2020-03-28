@@ -1,4 +1,14 @@
-<request proxiable="true" network-request="true" command-code="272">
+<request xmlns:c="jstl" proxiable="true">
     <avp code="293" name="Destination-Host" value="localhost"/>
-    <avp code="9000" name="Destination-Host" value="green, blue, red"/>
+    <c:choose>
+        <c:when test="${ answer.avps.resultCode == 2006 }">
+            <avp code="9000" value="green, blue"/>
+        </c:when>
+        <c:when test="${ answer.avps.resultCode == 2009 }">
+            <avp code="9000" value="green"/>
+        </c:when>
+        <c:otherwise>
+            <avp code="9000" value="green, blue, red"/>
+        </c:otherwise>
+    </c:choose>
 </request>

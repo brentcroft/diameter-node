@@ -1,8 +1,0 @@
-<server
-        diameter-config-uri="diameter/server-stack-config.xml"
-        dictionary-uri="diameter/dictionary.xml">
-    <listener
-            vendor-id="0"
-            auth-app-id="4"
-            template-uri="answers/basic-answer.jstl"/>
-</server>

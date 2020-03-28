@@ -24,32 +24,25 @@ import static java.util.Objects.nonNull;
 
 @Getter
 @Setter
-@Log4j2
-public class SimpleServer extends StackImpl implements Stack
+public class SimpleServer extends StackImpl implements Stack, Items
 {
-    private static final int DEFAULT_STACK_CREATION_TIMEOUT_MS = 30000;
+    @Getter
+    private final SessionFactory factory;
 
     public static void main( String[] args )
     {
-        String serverConfigUri = "diameter/server.xml";
-
+        String serverConfigUri = isNull( args ) || args.length < 1
+                                 ? "server.xml"
+                                 : args[ 0 ];
         try
         {
-            ServerConfigParser configParser = new ServerConfigParser();
-
             SAXParserFactory
                     .newInstance()
                     .newSAXParser()
-                    .parse( getLocalFileURL( SimpleServer.class, serverConfigUri )
-                            .openStream(), configParser );
+                    .parse(
+                            getLocalFileURL( SimpleServer.class, serverConfigUri ).openStream(),
+                            new ServerConfigParser() );
 
-            configParser
-                    .getServer()
-                    .start(
-                            Mode.ALL_PEERS,
-                            DEFAULT_STACK_CREATION_TIMEOUT_MS,
-                            TimeUnit.MILLISECONDS
-                    );
         }
         catch ( Exception e )
         {
@@ -61,19 +54,32 @@ public class SimpleServer extends StackImpl implements Stack
     {
         try
         {
-            init( config );
+            factory = init( config );
+
+            Thread.sleep( 500L );
         }
-        catch ( IllegalDiameterStateException | InternalException e )
+        catch ( InterruptedException | IllegalDiameterStateException | InternalException e )
         {
             throw new RuntimeException( e );
         }
     }
 
 
+    @Log4j2
     private static class ServerConfigParser extends DefaultHandler
     {
         @Getter
         private SimpleServer server;
+
+        public void startDocument()
+        {
+            log.info( "Starting server events ..." );
+        }
+
+        public void endDocument()
+        {
+            log.info( "Finished server events" );
+        }
 
         public void startElement( String uri, String localName, String qName, Attributes attributes )
                 throws SAXException
@@ -82,80 +88,124 @@ public class SimpleServer extends StackImpl implements Stack
             {
                 case "server":
 
-                    if ( nonNull( server ) )
-                    {
-                        throw new SAXException( "new server event but server is not null" );
-                    }
-
-                    for ( Items.ATTR ia : EnumSet.of( Items.ATTR.DICTIONARY_URI, Items.ATTR.DIAMETER_CONFIG_URI ) )
-                    {
-                        if ( ! ia.hasAttribute( attributes ) )
-                        {
-                            throw new SAXException( format( "Missing server attribute: %s", ia.getAttribute() ) );
-                        }
-                    }
-
-                    try
-                    {
-                        DictionarySingleton
-                                .getDictionary(
-                                        getLocalFileURL( SimpleServer.class, Items.ATTR.DICTIONARY_URI.getAttribute( attributes ) )
-                                                .openStream() );
-
-                        server = new SimpleServer(
-                                new XMLConfiguration(
-                                        getLocalFileURL(
-                                                SimpleServer.class,
-                                                Items.ATTR.DIAMETER_CONFIG_URI.getAttribute( attributes ) )
-                                                .openStream() ) );
-                    }
-                    catch ( Exception e )
-                    {
-                        throw new SAXException( e );
-                    }
-
+                    newServerEvent( attributes );
                     break;
-
 
                 case "listener":
 
-                    if ( isNull( server ) )
-                    {
-                        throw new SAXException( "new listener event but server is null" );
-                    }
+                    newListenerEvent( attributes );
+                    break;
 
-                    for ( Items.ATTR ia : EnumSet.of( Items.ATTR.TEMPLATE_URI, Items.ATTR.VENDOR_ID, Items.ATTR.AUTH_APP_ID ) )
-                    {
-                        if ( ! ia.hasAttribute( attributes ) )
-                        {
-                            throw new SAXException( format( "Missing listener attribute: %s", ia.getAttribute() ) );
-                        }
-                    }
+                case "start":
 
-                    JSTLProcessor processor = new JSTLProcessor();
+                    newStartEvent( attributes );
+                    break;
+            }
+        }
 
-                    processor.setTemplateUri( Items.ATTR.TEMPLATE_URI.getAttribute( attributes ) );
+        private void newServerEvent( Attributes attributes ) throws SAXException
+        {
+            if ( nonNull( server ) )
+            {
+                throw new SAXException( "new server event but server is not null" );
+            }
 
-                    SimpleStackListener stackListener = new SimpleStackListener();
+            if ( ! ATTR.DIAMETER_CONFIG_URI.hasAttribute( attributes ) )
+            {
+                throw new SAXException( format( "Missing server attribute: %s", ATTR.DIAMETER_CONFIG_URI.getAttribute() ) );
+            }
 
-                    stackListener.setDiameterRequestProcessor( processor );
+            try
+            {
+                if ( ATTR.DICTIONARY_URI.hasAttribute( attributes ) )
+                {
+                    DictionarySingleton
+                            .getDictionary(
+                                    getLocalFileURL( SimpleServer.class, ATTR.DICTIONARY_URI.getAttribute( attributes ) )
+                                            .openStream() );
+                }
 
-                    try
-                    {
-                        server
-                                .unwrap( Network.class )
-                                .addNetworkReqListener(
-                                        stackListener,
-                                        ApplicationId
-                                                .createByAuthAppId(
-                                                        Integer.parseInt( Items.ATTR.VENDOR_ID.getAttribute( attributes ) ),
-                                                        Integer.parseInt( Items.ATTR.AUTH_APP_ID.getAttribute( attributes ) ) ) );
+                server = new SimpleServer(
+                        new XMLConfiguration(
+                                getLocalFileURL(
+                                        SimpleServer.class,
+                                        ATTR.DIAMETER_CONFIG_URI.getAttribute( attributes ) )
+                                        .openStream() ) );
+            }
+            catch ( Exception e )
+            {
+                throw new SAXException( e );
+            }
+        }
 
-                    }
-                    catch ( Exception e )
-                    {
-                        throw new SAXException( e );
-                    }
+        private void newListenerEvent( Attributes attributes ) throws SAXException
+        {
+            if ( isNull( server ) )
+            {
+                throw new SAXException( "new listener event but server is null" );
+            }
+
+            for ( ATTR ia : EnumSet.of( ATTR.TEMPLATE_URI, ATTR.VENDOR_ID, ATTR.AUTH_APP_ID ) )
+            {
+                if ( ! ia.hasAttribute( attributes ) )
+                {
+                    throw new SAXException( format( "Missing listener attribute: %s", ia.getAttribute() ) );
+                }
+            }
+
+            JSTLProcessor processor = new JSTLProcessor();
+
+            processor.setTemplateUri( ATTR.TEMPLATE_URI.getAttribute( attributes ) );
+
+            SimpleStackListener stackListener = new SimpleStackListener();
+
+            stackListener.setDiameterRequestProcessor( processor );
+
+            try
+            {
+                server
+                        .unwrap( Network.class )
+                        .addNetworkReqListener(
+                                stackListener,
+                                ApplicationId
+                                        .createByAuthAppId(
+                                                Integer.parseInt( ATTR.VENDOR_ID.getAttribute( attributes ) ),
+                                                Integer.parseInt( ATTR.AUTH_APP_ID.getAttribute( attributes ) ) ) );
+
+            }
+            catch ( Exception e )
+            {
+                throw new SAXException( e );
+            }
+        }
+
+
+        private void newStartEvent( Attributes attributes ) throws SAXException
+        {
+            if ( isNull( server ) )
+            {
+                throw new SAXException( "new start event but server is null" );
+            }
+
+            for ( ATTR ia : EnumSet.of( ATTR.MODE, ATTR.STACK_CREATION_TIMEOUT, ATTR.TIME_UNIT ) )
+            {
+                if ( ! ia.hasAttribute( attributes ) )
+                {
+                    throw new SAXException( format( "Missing start attribute: %s", ia.getAttribute() ) );
+                }
+            }
+
+            try
+            {
+                server.start(
+                        Mode.valueOf( ATTR.MODE.getAttribute( attributes ) ),
+                        Long.parseLong( ATTR.STACK_CREATION_TIMEOUT.getAttribute( attributes ) ),
+                        TimeUnit.valueOf( ATTR.TIME_UNIT.getAttribute( attributes ) )
+                );
+            }
+            catch ( IllegalDiameterStateException | InternalException e )
+            {
+                throw new SAXException( e );
             }
         }
     }

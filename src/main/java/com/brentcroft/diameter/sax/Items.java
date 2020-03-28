@@ -35,7 +35,12 @@ public interface Items
         DESCRIPTION( "description" ),
         DICTIONARY_URI( "dictionary-uri" ),
         DIAMETER_CONFIG_URI( "diameter-config-uri" ),
-        TEMPLATE_URI( "template-uri" );
+        TEMPLATE_URI( "template-uri" ),
+        MODE( "mode" ),
+        STACK_CREATION_TIMEOUT( "stack-creation-timeout" ),
+        TIME_UNIT( "time-unit" ),
+        DISCONNECT_CAUSE( "disconnect-cause" ),
+        REALM( "realm" );
 
         private final String attr;
 

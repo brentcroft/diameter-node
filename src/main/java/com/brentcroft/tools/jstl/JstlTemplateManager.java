@@ -169,6 +169,13 @@ public class JstlTemplateManager
         log.info( () -> "Loaded template: " + uri );
     }
 
+    public JstlTemplate getTemplate( final String uri )
+    {
+        loadTemplate( uri, null );
+
+        return templates.get( uri );
+    }
+
 
     /**
      * Builds an anonymous <code>JstlTemplate</code> from the supplied text.

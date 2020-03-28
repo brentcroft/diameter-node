@@ -51,10 +51,19 @@ public class DiameterWriter extends DefaultHandler implements Items
                 throw new SAXException( "request is null" );
             }
 
+            request.setRequest( true );
+
             maybeConsumeAttribute(
                     ATTR.PROXIABLE, attributes,
                     v -> request.setProxiable( Boolean.parseBoolean( v ) ) );
 
+            maybeConsumeAttribute(
+                    ATTR.ERROR, attributes,
+                    v -> request.setError( Boolean.parseBoolean( v ) ) );
+
+            maybeConsumeAttribute(
+                    ATTR.RE_TRANSMITTED, attributes,
+                    v -> request.setReTransmitted( Boolean.parseBoolean( v ) ) );
 
             avpStack.push( request.getAvps() );
         }
