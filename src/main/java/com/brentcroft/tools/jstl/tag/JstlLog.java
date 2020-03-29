@@ -42,7 +42,6 @@ public class JstlLog extends AbstractJstlElement
         return "";
     }
 
-
     public String toText()
     {
         return String.format( "<%s level=\"%s\">%s</%s>", TAG, level, innerRenderable, TAG );

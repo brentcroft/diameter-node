@@ -1,8 +1,11 @@
 package com.brentcroft.tools.jstl.tag;
 
 import com.brentcroft.tools.el.ELTemplateManager;
+import com.brentcroft.tools.jstl.JstlDocument;
 import com.brentcroft.tools.jstl.JstlTemplate;
 import com.brentcroft.tools.jstl.MapBindings;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import javax.el.ValueExpression;
 import java.util.Map;
@@ -49,7 +52,7 @@ public class JstlWhile extends AbstractJstlElement
             return toText();
         }
 
-        final LoopTagStatus< Object > loopTagStatus = new LoopTagStatus< Object >( null, null, null );
+        final LoopTagStatus< Object > loopTagStatus = new LoopTagStatus<>( null, null, null );
 
         Object value = valueExpression.getValue( elTemplateManager.getELContext( rootObjects ) );
 
@@ -76,9 +79,31 @@ public class JstlWhile extends AbstractJstlElement
         return b.toString();
     }
 
-
     public String toText()
     {
         return String.format( "<%s test=\"%s\">%s</%s>", TAG, testEL, innerRenderable, TAG );
+    }
+
+    @Override
+    public void emitNodeEvents( Element element, Map< String, Object > bindings, JstlDocument.NodeListEmitter emitter ) throws SAXException
+    {
+        final LoopTagStatus< Object > loopTagStatus = new LoopTagStatus<>( null, null, null );
+
+        // protect external bindings from pollution in the loop
+        // scope
+        final MapBindings localObjects = new MapBindings( bindings );
+        localObjects.put( varStatus, loopTagStatus );
+
+        // in global scope
+        Object value = valueExpression.getValue( elTemplateManager.getELContext( localObjects ) );
+
+        while ( value instanceof Boolean && ( ( Boolean ) value ) )
+        {
+            emitter.emitChildren( element.getChildNodes(), bindings );
+
+            loopTagStatus.increment();
+
+            value = valueExpression.getValue( elTemplateManager.getELContext( localObjects ) );
+        }
     }
 }

@@ -119,7 +119,7 @@ public class JstlScript extends AbstractJstlElement
                 // need to copy back all first level members
                 // this must be copying out loads of other crap
                 // TODO: figure out how to handle bindings
-                final String[] keys = engineBindings.keySet().toArray( new String[ engineBindings.size() ] );
+                final String[] keys = engineBindings.keySet().toArray( new String[ 0 ] );
 
                 for ( String key : keys )
                 {
@@ -143,7 +143,6 @@ public class JstlScript extends AbstractJstlElement
             throw new RuntimeException( e );
         }
     }
-
 
     public String toText()
     {

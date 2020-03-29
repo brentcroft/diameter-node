@@ -96,6 +96,7 @@ public interface Items
     {
         ANSWER( "answer" ),
         REQUEST( "request" ),
+        APPLICATION_ID( "application-id" ),
         AVP( "avp" );
 
         private final String tag;

@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Level;
 
 import java.util.Map;
 
+import static com.brentcroft.tools.jstl.MapBindings.jstl;
 import static java.lang.String.format;
 
 /**
@@ -43,7 +44,7 @@ public enum JstlTag
                 public JstlElement newJstlElement( JstlTemplateHandler templateHandler, Map< String, String > attributes )
                 {
                     return new JstlIf(
-                            templateHandler.getELTemplateManager(),
+                            jstl().getELTemplateManager(),
                             expressionize( getAttributeValueNotEmpty( attributes, "test", String.class ) ) );
                 }
             },
@@ -70,7 +71,7 @@ public enum JstlTag
                 public JstlElement newJstlElement( JstlTemplateManager.JstlTemplateHandler templateHandler, Map< String, String > attributes )
                 {
                     return new JstlWhile(
-                            templateHandler.getELTemplateManager(),
+                            jstl().getELTemplateManager(),
                             expressionize( getAttributeValueNotEmpty( attributes, "test", String.class ) ),
                             getAttributeValue( attributes, "varStatus", "varStatus", String.class ) );
                 }
@@ -122,7 +123,7 @@ public enum JstlTag
                 public JstlElement newJstlElement( JstlTemplateManager.JstlTemplateHandler templateHandler, Map< String, String > attributes )
                 {
                     return new JstlForEach(
-                            templateHandler.getELTemplateManager(),
+                            jstl().getELTemplateManager(),
 
                             // maybe empty only if begin and end are set
                             getAttributeValue( attributes, "items", null, String.class ),
@@ -209,7 +210,7 @@ public enum JstlTag
                 public JstlElement newJstlElement( JstlTemplateHandler templateHandler, Map< String, String > attributes )
                 {
                     return new JstlWhen(
-                            templateHandler.getELTemplateManager(),
+                            jstl().getELTemplateManager(),
                             expressionize( getAttributeValueNotEmpty( attributes, "test", String.class ) ) );
                 }
             },

@@ -39,7 +39,7 @@
     <vendor vendor-id="ETSI" code="13019" name="ETSI" />
     <vendor vendor-id="CableLabs" code="4491" name="Cable Labs" />
     <vendor vendor-id="TMPL" code="35797" name="T-Mobile PL"/>
-    <vendor vendor-id="InteractInc" code="12429" name="Interact, Inc.Software Systems"/>
+    <vendor vendor-id="Brentcroft" code="105" name="Brentcroft Data Services"/>
 
     <avpdefn name="User-Name" code="1" mandatory="must" protected="may" may-encrypt="yes" vendor-bit="mustnot" >
         <type type-name="UTF8String" />
@@ -7861,191 +7861,20 @@
             <avp name="Equipment-Status" code="1445" vendor="10415" multiplicity="0-1" index="-1" />
             <avp name="Failed-AVP" code="279" vendor="0" multiplicity="0+" index="-1" />
             <avp name="Proxy-Info" code="284" vendor="0" multiplicity="0+" index="-1" />
-            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+" index="-1" />
+            <avp name="Route-Record" code="282" vendor="0" multiplicity="0+" index="-1"/>
         </command>
 
     </application>
 
     <!-- ************************ END 3GPP S13/S13' AVPS ******************* -->
-
-
-    <avpdefn name="Transaction-Id" code="7000" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Partition-Details" code="7002" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Subscription-State" code="7003" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must"/>
-    <avpdefn name="Subscription-Rate-Plan" code="7004" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must"/>
-    <avpdefn name="Subscription-Provider" code="7005" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must"/>
-    <avpdefn name="Subscription-Balance" code="7006" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <grouped>
-            <avp name="Money-Integer" multiplicity="1" />
-            <avp name="Money-Fractional" multiplicity="1" />
-        </grouped>
-    </avpdefn>
-    <avpdefn name="Subscription-Bonus-Balance" code="7007" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <grouped>
-            <avp name="Money-Integer" multiplicity="1" />
-            <avp name="Money-Fractional" multiplicity="1" />
-        </grouped>
-    </avpdefn>
-    <avpdefn name="Subscription-Credit-Expiry" code="7008" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-
-    <avpdefn name="Subscription-Details" code="7001" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must">
-        <grouped>
-            <avp name="Subscription-Balance" multiplicity="1" />
-            <avp name="Subscription-Bonus-Balance" multiplicity="1" />
-            <avp name="Subscription-Credit-Expiry" multiplicity="1" />
-        </grouped>
-    </avpdefn>
-
-    <avpdefn name="Partition-Id" code="7009" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Partition-Type" code="7010" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Partition-Balance" code="7011" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Partition-Bonus-Balance" code="7012" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Partition-Expiry" code="7013" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Partition-Bonus-Expiry" code="7014" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Subscription-Account-Expiry" code="7015" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Subscription-State-Id" code="7020" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Subscription-State-Name" code="7021" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Subscription-Rate-Plan-Id" code="7022" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Subscription-Rate-Plan-Name" code="7023" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Subscription-Provider-Id" code="7024" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Subscription-Provider-Name" code="7025" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Money-Integer" code="7026" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Money-Fractional" code="7027" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Partial-Credit" code="7028" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Bonus-Handling" code="7029" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Partition-Credit" code="7030" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Purchased-Credit" code="7031" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Bonus-Credit" code="7032" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Extension" code="7033" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="BonusExtension" code="7034" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Subscription-Balance-Change" code="7035" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Subscription-Bonus-Balance-Change" code="7036" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Partition-Balance-Change-Total" code="7037" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Partition-Balance-Change" code="7038" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Partition-Bonus-Balance-Change" code="7039" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Cdr-Information" code="7040" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <grouped>
-            <avp name="Retailer-Name" multiplicity="1"/>
-            <avp name="Information" multiplicity="1"/>
-        </grouped>
-    </avpdefn>
-    <avpdefn name="Request-Code" code="7041" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Requesting-Entity" code="7042" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Retailer-Name" code="7043" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Information" code="7044" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Money-Credit" code="7045" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Money-Debit" code="7046" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" />
-    <avpdefn name="Block-Notification" code="7047" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Reversal-Allowed" code="7048" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Call-Type" code="7050" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Event-Sub-Type" code="7051" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Destination-Type" code="7053" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Destination-Value" code="7054" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="UTF8String" />
-    </avpdefn>
-    <avpdefn name="Destination-Format" code="7055" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Unsigned32" />
-    </avpdefn>
-    <avpdefn name="Destination" code="7052" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <grouped>
-            <avp name="Destination-Type" multiplicity="1"/>
-            <avp name="Destination-Value" multiplicity="1"/>
-            <avp name="Destination-Format" multiplicity="1"/>
-        </grouped>
-    </avpdefn>
-    <avpdefn name="External-Price" code="7056" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <grouped>
-            <avp name="Money-Integer" multiplicity="1" />
-            <avp name="Money-Fractional" multiplicity="1" />
-        </grouped>
-    </avpdefn>
-    <avpdefn name="Reversal" code="7057" vendor-id="InteractInc" mandatory="must" protected="mustnot" may-encrypt="no" vendor-bit="must" >
-        <type type-name="Enumerated" />
-    </avpdefn>
-    <avpdefn name="Extended-Friends-Number-Balance" code="7058" vendor-id="InteractInc" mandatory="must"
-             protected="mustnot" may-encrypt="no" vendor-bit="must"/>
-    <avpdefn name="Extended-Friends-Number" code="7059" vendor-id="InteractInc" mandatory="must" protected="mustnot"
-             may-encrypt="no" vendor-bit="must">
-        <type type-name="UTF8String"/>
-    </avpdefn>
-    <avpdefn name="Extended-Friends-Balance" code="7060" vendor-id="InteractInc" mandatory="must" protected="mustnot"
-             may-encrypt="no" vendor-bit="must">
-        <type type-name="Unsigned32"/>
-    </avpdefn>
-
-
-    <avpdefn name="Alpha-Beta-Gamma" code="9000" vendor-id="0" mandatory="must" protected="mustnot" may-encrypt="no"
+    <avpdefn name="Alpha-Beta-Gamma" code="9000" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no"
              vendor-bit="must">
         <type type-name="UTF8String"/>
+    </avpdefn>
+    <avpdefn name="Alpha-Beta-Gamma-Delta" code="9001" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no"
+             vendor-bit="must">
+        <type type-name="Unsigned32"/>
     </avpdefn>
 </dictionary>

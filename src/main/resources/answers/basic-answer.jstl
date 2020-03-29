@@ -2,15 +2,15 @@
     <c:choose>
         <c:when test="${ request.avps.alphaBetaGamma.contains( 'red' ) }">
             <avp code="268" name="Result-Code" value="2006"/>
-            <avp code="9000" name="Alpha-Beta-Gamma" value="red"/>
+            <avp code="9000" vendor-id="105" name="Alpha-Beta-Gamma" value="red"/>
         </c:when>
         <c:when test="${ request.avps.alphaBetaGamma.contains( 'blue' ) }">
             <avp code="268" name="Result-Code" value="2009"/>
-            <avp code="9000" name="Alpha-Beta-Gamma" value="blue"/>
+            <avp code="9000" vendor-id="105" name="Alpha-Beta-Gamma" value="blue"/>
         </c:when>
         <c:otherwise>
             <avp code="268" name="Result-Code" value="2001"/>
-            <avp code="9000" name="Alpha-Beta-Gamma" value="green"/>
+            <avp code="9000" vendor-id="105" name="Alpha-Beta-Gamma" value="green"/>
         </c:otherwise>
     </c:choose>
 </answer>

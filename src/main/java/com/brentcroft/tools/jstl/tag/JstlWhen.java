@@ -2,8 +2,11 @@ package com.brentcroft.tools.jstl.tag;
 
 
 import com.brentcroft.tools.el.ELTemplateManager;
+import com.brentcroft.tools.jstl.JstlDocument;
 import com.brentcroft.tools.jstl.JstlTemplate;
 import com.brentcroft.tools.jstl.MapBindings;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import javax.el.ValueExpression;
 import java.util.Map;
@@ -11,7 +14,7 @@ import java.util.Map;
 
 public class JstlWhen extends AbstractJstlElement
 {
-    private final static String TAG = "c:when";
+    public final static String TAG = "c:when";
 
     protected String testEL;
 
@@ -64,5 +67,12 @@ public class JstlWhen extends AbstractJstlElement
     public String toText()
     {
         return String.format( "<%s test=\"%s\">%s</%s>", TAG, testEL, innerRenderable, TAG );
+    }
+
+
+    @Override
+    public void emitNodeEvents( Element element, Map< String, Object > bindings, JstlDocument.NodeListEmitter emitter ) throws SAXException
+    {
+        emitter.emitChildren( element.getChildNodes(), bindings );
     }
 }

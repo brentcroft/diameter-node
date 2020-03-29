@@ -1,8 +1,13 @@
 package com.brentcroft.tools.jstl.tag;
 
 
+import com.brentcroft.tools.jstl.JstlDocument;
 import com.brentcroft.tools.jstl.JstlTemplate;
 import com.brentcroft.tools.jstl.Renderable;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import java.util.Map;
 
 public interface JstlElement extends Renderable
 {
@@ -44,4 +49,6 @@ public interface JstlElement extends Renderable
     boolean isDeferred();
 
     void setDeferred( boolean deferred );
+
+    void emitNodeEvents( Element element, Map< String, Object > bindings, JstlDocument.NodeListEmitter emitter ) throws SAXException;
 }

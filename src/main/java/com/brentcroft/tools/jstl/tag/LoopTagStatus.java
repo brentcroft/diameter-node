@@ -1,6 +1,8 @@
 package com.brentcroft.tools.jstl.tag;
 
 
+import lombok.Getter;
+
 /**
  * (see http://docs.oracle.com/javaee/6/api/javax/servlet/jsp/jstl/core/
  * LoopTagStatus.html)
@@ -8,16 +10,13 @@ package com.brentcroft.tools.jstl.tag;
  * @param <T>
  * @author ADobson
  */
+@Getter
 public class LoopTagStatus< T >
 {
     private final Integer begin;
-
     private final Integer end;
-
     private final Integer step;
-
     private int index = 0;
-
     private T current;
 
     public LoopTagStatus( Integer begin, Integer end, Integer step )
@@ -50,18 +49,6 @@ public class LoopTagStatus< T >
         index = index + step;
     }
 
-    // The item (from the collection) for the current round of iteration
-    public T getCurrent()
-    {
-        return current;
-    }
-
-    // The zero-based index for the current round of iteration
-    public int getIndex()
-    {
-        return index;
-    }
-
     public int getCount()
     {
         return index + 1;
@@ -89,20 +76,6 @@ public class LoopTagStatus< T >
         return end == null ? null : ( index >= end );
     }
 
-    Integer getBegin()
-    {
-        return begin;
-    }
-
-    Integer getEnd()
-    {
-        return end;
-    }
-
-    int getStep()
-    {
-        return step;
-    }
 
     public void setIndex( Integer begin )
     {

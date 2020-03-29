@@ -36,11 +36,9 @@ public class JstlInclude extends AbstractJstlElement
             parent = parent.getParent();
         }
 
-
         // we're not lazy
         jstlTemplateHandler.loadTemplate( uri );
     }
-
 
     public String render( Map< String, Object > bindings )
     {

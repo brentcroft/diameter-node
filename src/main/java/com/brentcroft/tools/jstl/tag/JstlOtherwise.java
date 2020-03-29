@@ -1,13 +1,16 @@
 package com.brentcroft.tools.jstl.tag;
 
+import com.brentcroft.tools.jstl.JstlDocument;
 import com.brentcroft.tools.jstl.JstlTemplate;
 import com.brentcroft.tools.jstl.MapBindings;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
 
 import java.util.Map;
 
 public class JstlOtherwise extends AbstractJstlElement
 {
-    private final static String TAG = "c:otherwise";
+    public final static String TAG = "c:otherwise";
 
     public JstlOtherwise()
     {
@@ -27,5 +30,11 @@ public class JstlOtherwise extends AbstractJstlElement
     public String toText()
     {
         return String.format( "<%s>%s</%s>", TAG, innerRenderable, TAG );
+    }
+
+    @Override
+    public void emitNodeEvents( Element element, Map< String, Object > bindings, JstlDocument.NodeListEmitter emitter ) throws SAXException
+    {
+        emitter.emitChildren( element.getChildNodes(), bindings );
     }
 }

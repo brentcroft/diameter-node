@@ -131,7 +131,7 @@ public class DiameterReader extends AbstractXMLReader implements Items
         ATTR.ACCT_APP_ID.setAttribute( atts, NAMESPACE_URI, String.valueOf( applicationId.getAcctAppId() ) );
         ATTR.AUTH_APP_ID.setAttribute( atts, NAMESPACE_URI, String.valueOf( applicationId.getAuthAppId() ) );
 
-        final String tag = "application-id";
+        final String tag = TAG.APPLICATION_ID.getTag();
         ch.startElement( NAMESPACE_URI, tag, tag, atts );
         ch.endElement( NAMESPACE_URI, tag, tag );
     }
@@ -172,7 +172,6 @@ public class DiameterReader extends AbstractXMLReader implements Items
         {
             ATTR.TYPE.setAttribute( atts, NAMESPACE_URI, avpRep.getType() );
             ATTR.NAME.setAttribute( atts, NAMESPACE_URI, avpRep.getName() );
-            //ATTR.DESCRIPTION.setAttribute( atts, NAMESPACE_URI, avpRep.getDescription() );
         }
 
         final String value = getAvpValue( avp, avpRep );
@@ -267,19 +266,4 @@ public class DiameterReader extends AbstractXMLReader implements Items
 
         return avpValue;
     }
-
-    private static final char[] HEX_ARRAY = "0123456789ABCDEF".toCharArray();
-
-    public static String bytesToHex( byte[] bytes )
-    {
-        char[] hexChars = new char[ bytes.length * 2 ];
-        for ( int j = 0; j < bytes.length; j++ )
-        {
-            int v = bytes[ j ] & 0xFF;
-            hexChars[ j * 2 ] = HEX_ARRAY[ v >>> 4 ];
-            hexChars[ j * 2 + 1 ] = HEX_ARRAY[ v & 0x0F ];
-        }
-        return new String( hexChars );
-    }
-
 }

@@ -3,8 +3,9 @@ package com.brentcroft.diameter.simple;
 import com.brentcroft.diameter.DiameterModel;
 import com.brentcroft.diameter.sax.DiameterWriter;
 import com.brentcroft.diameter.sax.Items;
-import com.brentcroft.tools.jstl.MapBindings;
+import com.brentcroft.tools.jstl.JstlDocument;
 import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.jdiameter.api.*;
 import org.jdiameter.client.impl.DictionarySingleton;
@@ -15,7 +16,7 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -48,30 +49,35 @@ public class SimpleClient extends StackImpl implements Stack, Items
         String clientConfigUri = isNull( args ) || args.length < 1
                                  ? "client.xml"
                                  : args[ 0 ];
+
+        JstlDocument jstlDocument = new JstlDocument();
+
+        ClientConfigParser clientConfigParser = new ClientConfigParser();
+
         try
         {
-            MapBindings bindings = new MapBindings();
-
-//            // pre-process
-//            JstlInputSource jstlInputSource = new JstlInputSource();
-//            jstlInputSource.setBindings( bindings );
-//            jstlInputSource.setJstlTemplate( jstl().getTemplate( clientConfigUri ));
-//
-//            jstlInputSource.setDefaultHandler( new ClientConfigParser() );
 
 
-            StringReader reader = new StringReader( jstl().expandUri( clientConfigUri, bindings ) );
+            clientConfigParser.setModel( jstlDocument.getBindings() );
 
-            SAXParserFactory
-                    .newInstance()
-                    .newSAXParser()
-                    .parse( new InputSource( reader ),
-                            new ClientConfigParser() );
+            jstlDocument.setContentHandler( clientConfigParser );
 
+            jstlDocument.setDocument(
+                    DocumentBuilderFactory
+                            .newInstance()
+                            .newDocumentBuilder()
+                            .parse( new InputSource( getLocalFileURL( SimpleClient.class, clientConfigUri ).openStream() ) ) );
+
+            jstlDocument.renderEvents();
         }
         catch ( Exception e )
         {
             e.printStackTrace();
+
+            if ( nonNull( clientConfigParser.getClient() ) )
+            {
+                clientConfigParser.getClient().stop( 1 );
+            }
         }
     }
 
@@ -155,9 +161,9 @@ public class SimpleClient extends StackImpl implements Stack, Items
 
             return answers[ 0 ];
         }
-        catch ( Exception var5 )
+        catch ( Exception e )
         {
-            throw new RuntimeException( var5 );
+            throw new RuntimeException( e );
         }
     }
 
@@ -206,7 +212,8 @@ public class SimpleClient extends StackImpl implements Stack, Items
         private java.util.Stack< Answer > answer = new java.util.Stack<>();
 
         @Getter
-        private final Map< String, Object > model = new MapBindings();
+        @Setter
+        private Map< String, Object > model;
 
         public void startDocument()
         {
@@ -248,6 +255,12 @@ public class SimpleClient extends StackImpl implements Stack, Items
                 case "send":
                     answer.pop();
                     break;
+
+                default:
+                    if ( ! diameterWriter.isEmpty() )
+                    {
+                        diameterWriter.peek().endElement( uri, localName, qName );
+                    }
             }
         }
 
@@ -257,46 +270,47 @@ public class SimpleClient extends StackImpl implements Stack, Items
             switch ( qName )
             {
                 case "client":
-
                     newClientEvent( attributes );
                     break;
 
                 case "start":
-
                     newStartEvent( attributes );
                     break;
 
                 case "stop":
-
                     newStopEvent( attributes );
                     break;
 
                 case "session":
-
                     newSessionEvent( attributes );
                     break;
 
                 case "applicationId":
-
                     newApplicationEvent( attributes );
                     break;
 
                 case "destination":
-
                     newDestinationEvent( attributes );
                     break;
 
                 case "request":
-
                     newRequestEvent( attributes );
                     diameterWriter.peek().startElement( uri, localName, qName, attributes );
+                    break;
 
                 case "send":
                     newSendEvent( attributes );
-
+                    break;
 
                 case "answer":
                     newAnswerEvent( attributes );
+                    break;
+
+                default:
+                    if ( ! diameterWriter.isEmpty() )
+                    {
+                        diameterWriter.peek().startElement( uri, localName, qName, attributes );
+                    }
             }
         }
 
@@ -307,9 +321,7 @@ public class SimpleClient extends StackImpl implements Stack, Items
                 throw new SAXException( "new answer event but answer is empty" );
             }
 
-            model.putAll( DiameterModel.getModel( answer.peek() ) );
-
-            log.info( () -> format( "answer: \n%s\nmap: %s", serializeAnswer( answer.peek() ), DiameterModel.toString( model ) ) );
+            log.info( () -> format( "answer: \n%s", serializeAnswer( answer.peek() ) ) );
         }
 
         private void newSendEvent( Attributes attributes ) throws SAXException
@@ -332,6 +344,10 @@ public class SimpleClient extends StackImpl implements Stack, Items
             log.info( () -> format( "request: \n%s", serializeRequest( request.peek() ) ) );
 
             answer.push( client.sendRequest( session, request.peek() ) );
+
+            // TODO: until get replaced
+            model.putAll( DiameterModel.getModel( request.peek() ) );
+            model.putAll( DiameterModel.getModel( answer.peek() ) );
         }
 
 
@@ -366,6 +382,7 @@ public class SimpleClient extends StackImpl implements Stack, Items
                             Integer.parseInt( ATTR.COMMAND_CODE.getAttribute( attributes ) ),
                             applicationId,
                             destinationRealm ) );
+
 
             if ( ATTR.TEMPLATE_URI.hasAttribute( attributes ) )
             {

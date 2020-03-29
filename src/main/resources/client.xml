@@ -11,48 +11,39 @@
     <!--
 
     -->
-    <session session-id="${ c:uuid() }">
-        <applicationId vendor-id="0" auth-app-id="4">
-            <destination realm="server.brentcroft.com">
+
+    <applicationId vendor-id="0" auth-app-id="4">
+        <destination realm="server.brentcroft.com">
+            <session session-id="${ c:uuid() }">
                 <request command-code="272">
-                    <avp code="293" name="Destination-Host" value="localhost"/>
+                    <avp code="9000" vendor-id="105" value="green, blue, red"/>
+                    <avp code="9001" vendor-id="105" value="1"/>
                     <send>
                         <answer/>
                     </send>
                 </request>
+            </session>
 
-
-                <request command-code="272" proxiable="true" template-uri="requests/basic-request.jstl">
-                    <send>
-                        <answer>
-                            <request command-code="272" template-uri="requests/basic-request.jstl">
-                                <send>
-                                    <answer>
-                                        <request command-code="272" template-uri="requests/basic-request.jstl">
-                                            <send>
-                                                <answer/>
-                                            </send>
-                                        </request>
-                                    </answer>
-                                </send>
-                            </request>
-                        </answer>
-                    </send>
-                </request>
-
-                <!--
-                <xrequest command-code="272">
-                    <avp code="293" name="Destination-Host" value="localhost"/>
-                    <xc:while test="${ answer.avps.responseCode != 2001 }">
+            <c:while test="${ answer.avps.resultCode != 2001 and varStatus.count &lt; 7 }">
+                <session session-id="${ c:uuid() }">
+                    <request command-code="272">
+                        <c:choose>
+                            <c:when test="${ not( empty answer.avps.alphaBetaGamma or empty request.avps.alphaBetaGamma ) }">
+                                <avp code="9000" vendor-id="105"
+                                     value="${ c:replaceAll( request.avps.alphaBetaGamma, answer.avps.alphaBetaGamma, '' ) }"/>
+                            </c:when>
+                            <c:otherwise>
+                                <avp code="9000" vendor-id="105" value="green, blue, red"/>
+                            </c:otherwise>
+                        </c:choose>
                         <send>
                             <answer/>
                         </send>
-                    </xc:while>
-                </xrequest>
-                -->
-            </destination>
-        </applicationId>
-    </session>
+                    </request>
+                </session>
+            </c:while>
+        </destination>
+    </applicationId>
     <!--
 
     -->

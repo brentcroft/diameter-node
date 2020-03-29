@@ -235,9 +235,9 @@ public class JstlTemplateManager
     {
         private final JstlTemplate root = new JstlTemplate( null );
 
-        private final Stack< JstlTemplate > stack = new Stack< JstlTemplate >();
+        private final Stack< JstlTemplate > stack = new Stack<>();
 
-        private final Stack< String > tagStack = new Stack< String >();
+        private final Stack< String > tagStack = new Stack<>();
 
         private final JstlTemplateHandler parentHandler;
 
