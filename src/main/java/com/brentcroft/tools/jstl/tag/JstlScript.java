@@ -13,7 +13,7 @@ import static java.lang.String.format;
 @Log4j2
 public class JstlScript extends AbstractJstlElement
 {
-    private final static String TAG = "c:script";
+    public final static String TAG = "c:script";
 
     private final boolean isPublic;
 

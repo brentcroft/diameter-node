@@ -267,7 +267,7 @@ public class JstlForEach extends AbstractJstlElement
             // end is inclusive
             for ( loopTagStatus.setIndex( begin ); loopTagStatus.getIndex() <= end; loopTagStatus.increment( step ) )
             {
-                emitter.emitChildren( element.getChildNodes(), bindings );
+                emitter.emitListEvents( element.getChildNodes(), bindings );
             }
         }
         else
@@ -302,14 +302,14 @@ public class JstlForEach extends AbstractJstlElement
                     localObjects.put( var, item );
                     localObjects.put( varStatus, loopTagStatus.withCurrent( item ) );
 
-                    emitter.emitChildren( element.getChildNodes(), localObjects );
+                    emitter.emitListEvents( element.getChildNodes(), localObjects );
 
                     loopTagStatus.increment();
                 }
             }
             else
             {
-                emitter.emitChildren( element.getChildNodes(), bindings );
+                emitter.emitListEvents( element.getChildNodes(), bindings );
             }
         }
     }

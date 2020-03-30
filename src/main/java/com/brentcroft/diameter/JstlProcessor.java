@@ -1,6 +1,7 @@
 package com.brentcroft.diameter;
 
 import com.brentcroft.diameter.sax.DiameterWriter;
+import com.brentcroft.tools.jstl.MapBindings;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -19,15 +20,29 @@ import static com.brentcroft.tools.jstl.MapBindings.jstl;
 @Getter
 @Setter
 @Log4j2
-public class JSTLProcessor implements DiameterRequestProcessor
+public class JstlProcessor implements DiameterRequestProcessor
 {
     private String templateUri;
+    //private JstlDocument jstlDocument = new JstlDocument();
+
+    private final MapBindings model = new MapBindings();
 
     @Override
     public Answer processRequest( Request request )
     {
+        model.putAll( DiameterModel.getModel( request ) );
+
         try
         {
+//            if (isNull(jstlDocument.getDocument()))
+//            {
+//                jstlDocument.setDocument(
+//                        DocumentBuilderFactory
+//                                .newInstance()
+//                                .newDocumentBuilder()
+//                                .parse( new InputSource( getLocalFileURL( JstlProcessor.class, templateUri ).openStream() ) ) );
+//            }
+
             DiameterWriter diameterWriter = new DiameterWriter();
 
             diameterWriter.setRequest( request );
@@ -36,7 +51,7 @@ public class JSTLProcessor implements DiameterRequestProcessor
                     .newInstance()
                     .newTransformer()
                     .transform(
-                            new SAXSource( new InputSource( new StringReader( getAnswerText( request ) ) ) ),
+                            new SAXSource( new InputSource( new StringReader( getAnswerText() ) ) ),
                             new SAXResult( diameterWriter ) );
 
             return diameterWriter.getAnswer();
@@ -49,12 +64,12 @@ public class JSTLProcessor implements DiameterRequestProcessor
         return null;
     }
 
-    public String getAnswerText( Request request )
+    public String getAnswerText()
     {
         return jstl()
                 .expandUri(
                         templateUri,
-                        DiameterModel.getModel( request )
+                        model
                 );
     }
 }

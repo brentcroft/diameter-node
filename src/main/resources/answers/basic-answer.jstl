@@ -1,5 +1,16 @@
 <answer xmlns:c="jstl">
+    <c:log>
+        # get next result code
+        a = ${ model.nextResultCode }
+    </c:log>
     <c:choose>
+        <c:when test="${ not empty model.nextResultCode }">
+            <avp code="268" name="Result-Code" value="${ model.nextResultCode }"/>
+            <c:script public="true">
+                model.remove( "nextResultCode" )
+            </c:script>
+        </c:when>
+
         <c:when test="${ request.avps.alphaBetaGamma.contains( 'red' ) }">
             <avp code="268" name="Result-Code" value="2006"/>
             <avp code="9000" vendor-id="105" name="Alpha-Beta-Gamma" value="red"/>

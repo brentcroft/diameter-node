@@ -34,14 +34,21 @@
 			<Peer name="localhost:3867" rating="0" ip="127.0.0.1"/>
 		</Peers>
 		<Realms>
-			<Realm name="server.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
-				<ApplicationID>
-					<VendorId value="0"/>
-					<AuthApplId value="4"/>
-					<AcctApplId value="0"/>
-				</ApplicationID>
-			</Realm>
-		</Realms>
+            <Realm name="server.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
+                <ApplicationID>
+                    <VendorId value="0"/>
+                    <AuthApplId value="4"/>
+                    <AcctApplId value="0"/>
+                </ApplicationID>
+            </Realm>
+            <Realm name="server.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
+                <ApplicationID>
+                    <VendorId value="105"/>
+                    <AuthApplId value="1"/>
+                    <AcctApplId value="0"/>
+                </ApplicationID>
+            </Realm>
+        </Realms>
 	</Network>
 
 	<Extensions/>

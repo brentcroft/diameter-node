@@ -66,6 +66,14 @@ public class JstlTemplateManager
 
     private final Map< String, JstlTemplate > templates = new HashMap<>();
 
+
+    public void dropTemplates()
+    {
+        templates.clear();
+        elTemplateManager.dropTemplates();
+    }
+
+
     public JstlTemplateManager withELFilter( ELFilter elFilter )
     {
         getELTemplateManager().setValueExpressionFilter( elFilter );

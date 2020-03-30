@@ -1,6 +1,6 @@
 package com.brentcroft.diameter.fixtures;
 
-import com.brentcroft.diameter.JSTLProcessor;
+import com.brentcroft.diameter.JstlProcessor;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ExpectedScenarioState;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
@@ -28,13 +28,13 @@ public class WhenStubState extends Stage< WhenStubState >
     Answer answer;
 
     @ExpectedScenarioState
-    JSTLProcessor processor;
+    JstlProcessor processor;
 
 
 
     public WhenStubState get_answer_text()
     {
-        answerText = processor.getAnswerText( request );
+        answerText = processor.getAnswerText();
 
         return self();
     }

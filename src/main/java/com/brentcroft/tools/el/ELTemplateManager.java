@@ -223,6 +223,12 @@ public class ELTemplateManager
     }
 
 
+    public void dropTemplates()
+    {
+        templates.clear();
+    }
+
+
     /**
      * Expands the supplied <code>elText</code> so that all EL tags are replaced
      * with their values calculated with respect to the supplied map of root

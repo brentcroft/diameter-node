@@ -46,6 +46,13 @@
                     <AcctApplId value="0"/>
                 </ApplicationID>
             </Realm>
+            <Realm name="client.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
+                <ApplicationID>
+                    <VendorId value="105"/>
+                    <AuthApplId value="1"/>
+                    <AcctApplId value="0"/>
+                </ApplicationID>
+            </Realm>
         </Realms>
     </Network>
 

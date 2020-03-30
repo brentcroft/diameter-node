@@ -74,7 +74,7 @@ public class JstlIf extends AbstractJstlElement
 
         if ( value instanceof Boolean && ( ( Boolean ) value ) )
         {
-            emitter.emitChildren( element.getChildNodes(), bindings );
+            emitter.emitListEvents( element.getChildNodes(), bindings );
         }
     }
 }

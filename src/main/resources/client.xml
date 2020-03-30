@@ -11,26 +11,40 @@
     <!--
 
     -->
+    <destination realm="server.brentcroft.com">
 
-    <applicationId vendor-id="0" auth-app-id="4">
-        <destination realm="server.brentcroft.com">
+
+        <applicationId vendor-id="105" auth-app-id="1">
             <session session-id="${ c:uuid() }">
-                <request command-code="272">
-                    <avp code="9000" vendor-id="105" value="green, blue, red"/>
-                    <avp code="9001" vendor-id="105" value="1"/>
+                <request command-code="2" name="Drop-Templates">
                     <send>
                         <answer/>
                     </send>
                 </request>
             </session>
+        </applicationId>
 
-            <c:while test="${ answer.avps.resultCode != 2001 and varStatus.count &lt; 7 }">
+
+        <applicationId vendor-id="105" auth-app-id="1">
+            <session session-id="${ c:uuid() }">
+                <request command-code="1" name="Set-Next-Result-Code">
+                    <avp code="9001" vendor-id="105" name="Next-Result-Code" value="42"/>
+                    <send>
+                        <answer/>
+                    </send>
+                </request>
+            </session>
+        </applicationId>
+
+
+        <applicationId vendor-id="0" auth-app-id="4">
+            <c:while test="${ answer.avps.resultCode != 2001 and varStatus.count &lt; 2 }">
                 <session session-id="${ c:uuid() }">
                     <request command-code="272">
                         <c:choose>
-                            <c:when test="${ not( empty answer.avps.alphaBetaGamma or empty request.avps.alphaBetaGamma ) }">
+                            <c:when test="${ not( empty answer.avps.adminResponse or empty request.avps.adminResponse ) }">
                                 <avp code="9000" vendor-id="105"
-                                     value="${ c:replaceAll( request.avps.alphaBetaGamma, answer.avps.alphaBetaGamma, '' ) }"/>
+                                     value="${ c:replaceAll( request.avps.adminResponse, answer.avps.adminResponse, '' ) }"/>
                             </c:when>
                             <c:otherwise>
                                 <avp code="9000" vendor-id="105" value="green, blue, red"/>
@@ -42,8 +56,11 @@
                     </request>
                 </session>
             </c:while>
-        </destination>
-    </applicationId>
+        </applicationId>
+
+
+    </destination>
+
     <!--
 
     -->

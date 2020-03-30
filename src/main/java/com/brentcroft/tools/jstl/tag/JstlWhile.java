@@ -99,7 +99,7 @@ public class JstlWhile extends AbstractJstlElement
 
         while ( value instanceof Boolean && ( ( Boolean ) value ) )
         {
-            emitter.emitChildren( element.getChildNodes(), bindings );
+            emitter.emitListEvents( element.getChildNodes(), bindings );
 
             loopTagStatus.increment();
 

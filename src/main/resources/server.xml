@@ -1,4 +1,12 @@
-<server diameter-config-uri="diameter/server-stack-config.xml">
+<server
+        diameter-config-uri="diameter/server-stack-config.xml">
+    <!--
+        special stub application
+    -->
+    <listener
+            vendor-id="105"
+            auth-app-id="1"
+            template-uri="answers/brentcroft-stub.jstl"/>
     <!--
 
     -->

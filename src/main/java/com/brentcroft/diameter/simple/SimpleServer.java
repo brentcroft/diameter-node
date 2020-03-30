@@ -1,7 +1,9 @@
 package com.brentcroft.diameter.simple;
 
-import com.brentcroft.diameter.JSTLProcessor;
+import com.brentcroft.diameter.JstlProcessor;
 import com.brentcroft.diameter.sax.Items;
+import com.brentcroft.tools.jstl.JstlDocument;
+import com.brentcroft.tools.jstl.MapBindings;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -10,11 +12,13 @@ import org.jdiameter.client.impl.DictionarySingleton;
 import org.jdiameter.server.impl.StackImpl;
 import org.jdiameter.server.impl.helpers.XMLConfiguration;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import javax.xml.parsers.SAXParserFactory;
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.util.EnumSet;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import static com.brentcroft.tools.el.ELTemplateManager.getLocalFileURL;
@@ -34,19 +38,42 @@ public class SimpleServer extends StackImpl implements Stack, Items
         String serverConfigUri = isNull( args ) || args.length < 1
                                  ? "server.xml"
                                  : args[ 0 ];
+
+        ServerConfigParser serverConfigParser = new ServerConfigParser();
+
+        JstlDocument jstlDocument = new JstlDocument();
+
+        jstlDocument.getBindings().put( "model", new MapBindings() );
+
+        jstlDocument.setContentHandler( serverConfigParser );
+
+        serverConfigParser.setModel( jstlDocument.getBindings() );
+
         try
         {
-            SAXParserFactory
-                    .newInstance()
-                    .newSAXParser()
-                    .parse(
-                            getLocalFileURL( SimpleServer.class, serverConfigUri ).openStream(),
-                            new ServerConfigParser() );
+            jstlDocument.setDocument(
+                    DocumentBuilderFactory
+                            .newInstance()
+                            .newDocumentBuilder()
+                            .parse( new InputSource( getLocalFileURL( SimpleServer.class, serverConfigUri ).openStream() ) ) );
 
+            jstlDocument.renderEvents();
+
+//            SAXParserFactory
+//                    .newInstance()
+//                    .newSAXParser()
+//                    .parse(
+//                            getLocalFileURL( SimpleServer.class, serverConfigUri ).openStream(),
+//                            serverConfigParser );
         }
         catch ( Exception e )
         {
             e.printStackTrace();
+
+            if ( nonNull( serverConfigParser.getServer() ) )
+            {
+                serverConfigParser.getServer().stop( 1 );
+            }
         }
     }
 
@@ -70,6 +97,9 @@ public class SimpleServer extends StackImpl implements Stack, Items
     {
         @Getter
         private SimpleServer server;
+
+        @Setter
+        private Map< String, Object > model;
 
         public void startDocument()
         {
@@ -152,12 +182,27 @@ public class SimpleServer extends StackImpl implements Stack, Items
                     throw new SAXException( format( "Missing listener attribute: %s", ia.getAttribute() ) );
                 }
             }
+            int vendorId = Integer.parseInt( ATTR.VENDOR_ID.getAttribute( attributes ) );
+            int authAppId = Integer.parseInt( ATTR.AUTH_APP_ID.getAttribute( attributes ) );
+            String templateUri = ATTR.TEMPLATE_URI.getAttribute( attributes );
 
-            JSTLProcessor processor = new JSTLProcessor();
 
-            processor.setTemplateUri( ATTR.TEMPLATE_URI.getAttribute( attributes ) );
+            JstlProcessor processor = new JstlProcessor();
+
+            processor.getModel().withParent( model );
+
+            processor.setTemplateUri( templateUri );
 
             SimpleStackListener stackListener = new SimpleStackListener();
+
+            stackListener.setName(
+                    format(
+                            "%s:%s@%s",
+                            vendorId,
+                            authAppId,
+                            templateUri.lastIndexOf( '/' ) > - 1
+                            ? templateUri.substring( templateUri.lastIndexOf( '/' ) + 1 )
+                            : templateUri ) );
 
             stackListener.setDiameterRequestProcessor( processor );
 
@@ -167,11 +212,7 @@ public class SimpleServer extends StackImpl implements Stack, Items
                         .unwrap( Network.class )
                         .addNetworkReqListener(
                                 stackListener,
-                                ApplicationId
-                                        .createByAuthAppId(
-                                                Integer.parseInt( ATTR.VENDOR_ID.getAttribute( attributes ) ),
-                                                Integer.parseInt( ATTR.AUTH_APP_ID.getAttribute( attributes ) ) ) );
-
+                                ApplicationId.createByAuthAppId( vendorId, authAppId ) );
             }
             catch ( Exception e )
             {

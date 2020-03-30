@@ -1,8 +1,13 @@
 package com.brentcroft.tools.jstl.tag;
 
 
+import com.brentcroft.tools.jstl.JstlDocument;
 import com.brentcroft.tools.jstl.JstlTemplate;
 import com.brentcroft.tools.jstl.MapBindings;
+import org.w3c.dom.Element;
+import org.xml.sax.SAXException;
+
+import java.util.Map;
 
 public abstract class AbstractJstlElement implements JstlElement
 {
@@ -31,5 +36,12 @@ public abstract class AbstractJstlElement implements JstlElement
     public String toString()
     {
         return toText() + "\n";
+    }
+
+
+    @Override
+    public void emitNodeEvents( Element element, Map< String, Object > bindings, JstlDocument.NodeListEmitter emitter ) throws SAXException
+    {
+
     }
 }

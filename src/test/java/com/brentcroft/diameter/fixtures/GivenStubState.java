@@ -1,6 +1,6 @@
 package com.brentcroft.diameter.fixtures;
 
-import com.brentcroft.diameter.JSTLProcessor;
+import com.brentcroft.diameter.JstlProcessor;
 import com.tngtech.jgiven.Stage;
 import com.tngtech.jgiven.annotation.ProvidedScenarioState;
 import org.jdiameter.api.ApplicationId;
@@ -24,7 +24,7 @@ public class GivenStubState extends Stage< GivenStubState >
     Request request;
 
     @ProvidedScenarioState
-    JSTLProcessor processor;
+    JstlProcessor processor;
 
 
     public GivenStubState avp_dictionary_path( String dictionaryUri )
@@ -55,7 +55,7 @@ public class GivenStubState extends Stage< GivenStubState >
 
     public GivenStubState simple_processor( String templateUri )
     {
-        this.processor = new JSTLProcessor();
+        this.processor = new JstlProcessor();
         this.processor.setTemplateUri( templateUri );
         return self();
     }

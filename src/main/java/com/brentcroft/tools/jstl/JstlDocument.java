@@ -23,7 +23,7 @@ import static java.util.Optional.ofNullable;
 @Setter
 public class JstlDocument
 {
-    private final Map< String, Object > bindings = new MapBindings();
+    private final MapBindings bindings = new MapBindings();
     private Document document;
     private ContentHandler contentHandler;
 
@@ -34,7 +34,7 @@ public class JstlDocument
 
     public interface NodeListEmitter
     {
-        void emitChildren( NodeList parent, Map< String, Object > bindings ) throws SAXException;
+        void emitListEvents( NodeList nodeList, Map< String, Object > bindings ) throws SAXException;
     }
 
     private static List< Node > getChildNodes( NodeList parent )
@@ -46,6 +46,12 @@ public class JstlDocument
                        .mapToObj( parent::item )
                        .collect( Collectors.toList() );
     }
+
+    private boolean isJstlElement( Element element )
+    {
+        return element.getTagName().startsWith( "c:" );
+    }
+
 
     public void emitChildren( NodeList parent, Map< String, Object > bindings ) throws SAXException
     {
@@ -62,7 +68,7 @@ public class JstlDocument
                 case Node.ELEMENT_NODE:
                     final Element element = ( Element ) node;
 
-                    if ( element.getTagName().startsWith( "c:" ) )
+                    if ( isJstlElement( element ) )
                     {
                         Map< String, String > ai = new HashMap<>();
 
@@ -122,4 +128,5 @@ public class JstlDocument
             }
         }
     }
+
 }

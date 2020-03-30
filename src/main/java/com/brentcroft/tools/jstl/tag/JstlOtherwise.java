@@ -35,6 +35,6 @@ public class JstlOtherwise extends AbstractJstlElement
     @Override
     public void emitNodeEvents( Element element, Map< String, Object > bindings, JstlDocument.NodeListEmitter emitter ) throws SAXException
     {
-        emitter.emitChildren( element.getChildNodes(), bindings );
+        emitter.emitListEvents( element.getChildNodes(), bindings );
     }
 }
