@@ -1,7 +1,7 @@
 <answer xmlns:c="jstl">
     <c:log>
-        # get next result code
-        a = ${ model.nextResultCode }
+        # model
+        ${ model }
     </c:log>
     <c:choose>
         <c:when test="${ not empty model.nextResultCode }">
