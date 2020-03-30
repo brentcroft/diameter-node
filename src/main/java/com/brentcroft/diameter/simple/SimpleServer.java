@@ -58,13 +58,6 @@ public class SimpleServer extends StackImpl implements Stack, Items
                             .parse( new InputSource( getLocalFileURL( SimpleServer.class, serverConfigUri ).openStream() ) ) );
 
             jstlDocument.renderEvents();
-
-//            SAXParserFactory
-//                    .newInstance()
-//                    .newSAXParser()
-//                    .parse(
-//                            getLocalFileURL( SimpleServer.class, serverConfigUri ).openStream(),
-//                            serverConfigParser );
         }
         catch ( Exception e )
         {
@@ -93,7 +86,7 @@ public class SimpleServer extends StackImpl implements Stack, Items
 
 
     @Log4j2
-    private static class ServerConfigParser extends DefaultHandler
+    public static class ServerConfigParser extends DefaultHandler
     {
         @Getter
         private SimpleServer server;

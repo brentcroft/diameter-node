@@ -188,7 +188,7 @@ public class SimpleClient extends StackImpl implements Stack, Items
     }
 
     @Log4j2
-    private static class ClientConfigParser extends DefaultHandler
+    public static class ClientConfigParser extends DefaultHandler
     {
         @Getter
         private SimpleClient client;
