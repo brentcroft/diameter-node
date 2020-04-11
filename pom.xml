@@ -44,15 +44,22 @@
 
 		<!-- -->
 		<dependency>
-			<groupId>de.odysseus.juel</groupId>
-			<artifactId>juel-impl</artifactId>
-			<version>${juel.version}</version>
+			<groupId>com.brentcroft.tool</groupId>
+			<artifactId>jstl-templates</artifactId>
+			<version>0.0.1</version>
 		</dependency>
-		<dependency>
-			<groupId>de.odysseus.juel</groupId>
-			<artifactId>juel-api</artifactId>
-			<version>${juel.version}</version>
-		</dependency>
+
+
+		<!--		<dependency>-->
+		<!--			<groupId>de.odysseus.juel</groupId>-->
+		<!--			<artifactId>juel-impl</artifactId>-->
+		<!--			<version>${juel.version}</version>-->
+		<!--		</dependency>-->
+		<!--		<dependency>-->
+		<!--			<groupId>de.odysseus.juel</groupId>-->
+		<!--			<artifactId>juel-api</artifactId>-->
+		<!--			<version>${juel.version}</version>-->
+		<!--		</dependency>-->
 		<!--
 			TEST ONLY
 		-->

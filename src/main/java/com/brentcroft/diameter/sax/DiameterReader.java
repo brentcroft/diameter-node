@@ -3,6 +3,7 @@ package com.brentcroft.diameter.sax;
 import lombok.extern.log4j.Log4j2;
 import org.jdiameter.api.*;
 import org.jdiameter.api.validation.AvpRepresentation;
+import org.jdiameter.api.validation.MessageRepresentation;
 import org.jdiameter.common.impl.validation.DictionaryImpl;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
@@ -14,6 +15,7 @@ import java.util.List;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
+import static java.util.Optional.ofNullable;
 
 /**
  * Reads a JDiameter Request or Answer object
@@ -80,6 +82,14 @@ public class DiameterReader extends AbstractXMLReader implements Items
 
         ATTR.APPLICATION_ID.setAttribute( atts, NAMESPACE_URI, String.valueOf( message.getApplicationId() ) );
         ATTR.COMMAND_CODE.setAttribute( atts, NAMESPACE_URI, String.valueOf( message.getCommandCode() ) );
+
+        ofNullable(
+                DictionaryImpl.INSTANCE.getMessage(
+                        message.getCommandCode(),
+                        message.getApplicationId(),
+                        message.isRequest() ) )
+                .map( MessageRepresentation::getName )
+                .ifPresent( commandName -> ATTR.COMMAND_NAME.setAttribute( atts, NAMESPACE_URI, commandName ) );
 
         if ( message.getEndToEndIdentifier() != 0 )
         {

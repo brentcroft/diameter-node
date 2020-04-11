@@ -2,8 +2,8 @@
 <Configuration xmlns="http://www.jdiameter.org/jdiameter-client">
 
 	<LocalPeer>
-		<URI value="localhost:3698"/>
-		<IPAddress value="127.0.0.1"/>
+		<URI value="192.168.1.65:3698"/>
+		<IPAddress value="192.168.1.65"/>
 		<Realm value="client.brentcroft.com"/>
 		<VendorID value="0"/>
 		<ProductName value="brentcroft-diameter-client"/>
@@ -31,24 +31,24 @@
 
 	<Network>
 		<Peers>
-			<Peer name="localhost:3867" rating="0" ip="127.0.0.1"/>
+			<Peer name="acd012:3867" rating="0" ip="192.168.1.12"/>
 		</Peers>
 		<Realms>
-            <Realm name="server.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
-                <ApplicationID>
-                    <VendorId value="0"/>
-                    <AuthApplId value="4"/>
-                    <AcctApplId value="0"/>
-                </ApplicationID>
-            </Realm>
-            <Realm name="server.brentcroft.com" peers="localhost" local_action="LOCAL" dynamic="false" exp_time="1">
-                <ApplicationID>
-                    <VendorId value="105"/>
-                    <AuthApplId value="1"/>
-                    <AcctApplId value="0"/>
-                </ApplicationID>
-            </Realm>
-        </Realms>
+			<Realm name="server.brentcroft.com" peers="acd012" local_action="LOCAL" dynamic="false" exp_time="1">
+				<ApplicationID>
+					<VendorId value="0"/>
+					<AuthApplId value="4"/>
+					<AcctApplId value="0"/>
+				</ApplicationID>
+			</Realm>
+			<Realm name="server.brentcroft.com" peers="acd012" local_action="LOCAL" dynamic="false" exp_time="1">
+				<ApplicationID>
+					<VendorId value="105"/>
+					<AuthApplId value="1"/>
+					<AcctApplId value="0"/>
+				</ApplicationID>
+			</Realm>
+		</Realms>
 	</Network>
 
 	<Extensions/>

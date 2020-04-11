@@ -16,6 +16,7 @@ public interface Items
         NETWORK_REQUEST( "network-request" ),
         APPLICATION_ID( "application-id" ),
         COMMAND_CODE( "command-code" ),
+        COMMAND_NAME( "command-name" ),
         END_TO_END_IDENTIFIER( "end-to-end-identifier" ),
         HOP_BY_HOP_IDENTIFIER( "hop-by-hop-identifier" ),
         SESSION_ID( "session-id" ),

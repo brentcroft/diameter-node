@@ -16,7 +16,7 @@
 
         <applicationId vendor-id="105" auth-app-id="1">
             <session session-id="${ c:uuid() }">
-                <request command-code="2" name="Drop-Templates">
+                <request command-code="2" command-name="Drop-Templates">
                     <send>
                         <answer/>
                     </send>
@@ -27,7 +27,7 @@
 
         <applicationId vendor-id="105" auth-app-id="1">
             <session session-id="${ c:uuid() }">
-                <request command-code="1" name="Set-Next-Result-Code">
+                <request command-code="1" command-name="Set-Next-Result-Code">
                     <avp code="9001" vendor-id="105" name="Next-Result-Code" value="42"/>
                     <send>
                         <answer/>
