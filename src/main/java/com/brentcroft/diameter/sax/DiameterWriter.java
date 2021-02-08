@@ -127,13 +127,20 @@ public class DiameterWriter extends DefaultHandler implements Items
 
             if ( isNull( avpRep ) )
             {
-                log.info( () -> format( "No AvpRepresentation for coordinates: code=%s, vendorId=%s, value=%s; guessing data ...", code, vendorId, value ) );
+                if ( "Grouped".equals( type ) )
+                {
+                    avpStack.push( avpStack.peek().addGroupedAvp( code, vendorId, true, false ) );
+                }
+                else
+                {
+                    log.info( () -> format( "No AvpRepresentation for coordinates: code=%s, vendorId=%s, value=%s; guessing data ...", code, vendorId, value ) );
 
-                byte[] rawData = guessData( code, vendorId, value );
+                    byte[] rawData = guessData( code, vendorId, value );
 
-                avpStack.peek().removeAvp( code, vendorId );
-                avpStack.peek().addAvp( code, rawData, vendorId, true, false );
-                avpStack.push( null );
+                    avpStack.peek().removeAvp( code, vendorId );
+                    avpStack.peek().addAvp( code, rawData, vendorId, true, false );
+                    avpStack.push( null );
+                }
             }
             else
             {

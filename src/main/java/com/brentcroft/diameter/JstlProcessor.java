@@ -1,6 +1,7 @@
 package com.brentcroft.diameter;
 
 import com.brentcroft.diameter.sax.DiameterWriter;
+import com.brentcroft.tools.jstl.JstlTemplateManager;
 import com.brentcroft.tools.jstl.MapBindings;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,15 +16,13 @@ import javax.xml.transform.sax.SAXResult;
 import javax.xml.transform.sax.SAXSource;
 import java.io.StringReader;
 
-import static com.brentcroft.tools.jstl.MapBindings.jstl;
-
 @Getter
 @Setter
 @Log4j2
 public class JstlProcessor implements DiameterRequestProcessor
 {
     private String templateUri;
-    //private JstlDocument jstlDocument = new JstlDocument();
+    private final static JstlTemplateManager jstl = new JstlTemplateManager();
 
     private final MapBindings model = new MapBindings();
 
@@ -66,7 +65,7 @@ public class JstlProcessor implements DiameterRequestProcessor
 
     public String getAnswerText()
     {
-        return jstl()
+        return jstl
                 .expandUri(
                         templateUri,
                         model

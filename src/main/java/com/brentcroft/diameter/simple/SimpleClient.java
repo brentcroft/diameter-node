@@ -4,6 +4,7 @@ import com.brentcroft.diameter.DiameterModel;
 import com.brentcroft.diameter.sax.DiameterWriter;
 import com.brentcroft.diameter.sax.Items;
 import com.brentcroft.tools.jstl.JstlDocument;
+import com.brentcroft.tools.jstl.JstlTemplateManager;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -31,7 +32,6 @@ import java.util.function.Supplier;
 import static com.brentcroft.diameter.DiameterRequestProcessor.serializeAnswer;
 import static com.brentcroft.diameter.DiameterRequestProcessor.serializeRequest;
 import static com.brentcroft.tools.el.ELTemplateManager.getLocalFileURL;
-import static com.brentcroft.tools.jstl.MapBindings.jstl;
 import static java.lang.String.format;
 import static java.util.Objects.isNull;
 import static java.util.Objects.nonNull;
@@ -40,6 +40,8 @@ import static java.util.Objects.nonNull;
 @Log4j2
 public class SimpleClient extends StackImpl implements Stack, Items
 {
+    private final static JstlTemplateManager jstl = new JstlTemplateManager();
+
     @Getter
     private final SessionFactory factory;
 
@@ -203,13 +205,13 @@ public class SimpleClient extends StackImpl implements Stack, Items
         public String destinationRealm;
 
         @Getter
-        private java.util.Stack< Request > request = new java.util.Stack<>();
+        private final java.util.Stack< Request > request = new java.util.Stack<>();
 
         @Getter
-        private java.util.Stack< DiameterWriter > diameterWriter = new java.util.Stack<>();
+        private final java.util.Stack< DiameterWriter > diameterWriter = new java.util.Stack<>();
 
         @Getter
-        private java.util.Stack< Answer > answer = new java.util.Stack<>();
+        private final java.util.Stack< Answer > answer = new java.util.Stack<>();
 
         @Getter
         @Setter
@@ -386,7 +388,7 @@ public class SimpleClient extends StackImpl implements Stack, Items
 
             if ( ATTR.TEMPLATE_URI.hasAttribute( attributes ) )
             {
-                String requestXml = jstl()
+                String requestXml = jstl
                         .expandUri(
                                 ATTR.TEMPLATE_URI.getAttribute( attributes ),
                                 model

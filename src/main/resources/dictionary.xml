@@ -259,7 +259,109 @@
         <command name="Set-Next-Result-Code" code="1" request="false"/>
         <command name="Drop-Templates" code="2" request="true"/>
         <command name="Drop-Templates" code="2" request="false"/>
+    </application>
+
+
+    <avpdefn name="Scene-Date" code="9110" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Date"/>
+    </avpdefn>
+    <avpdefn name="Scene-Time" code="9111" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Time"/>
+    </avpdefn>
+    <avpdefn name="Scene-Folder" code="9112" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="UTF8String"/>
+    </avpdefn>
+    <avpdefn name="Scene-Filename" code="9113" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="UTF8String"/>
+    </avpdefn>
+    <avpdefn name="Pixel-Width" code="9101" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="Pixel-Height" code="9102" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="Pixel-Depth" code="9103" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="Scene-Size" code="9100" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <grouped>
+            <avp name="Pixel-Width" multiplicity="1"/>
+            <avp name="Pixel-Height" multiplicity="1"/>
+            <avp name="Pixel-Depth" multiplicity="1"/>
+        </grouped>
+    </avpdefn>
+
+    <avpdefn name="xmin" code="9155" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="ymin" code="9156" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="xmax" code="9157" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="ymax" code="9158" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Unsigned32"/>
+    </avpdefn>
+    <avpdefn name="Box" code="9154" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <grouped>
+            <avp name="xmin" multiplicity="1"/>
+            <avp name="ymin" multiplicity="1"/>
+            <avp name="xmax" multiplicity="1"/>
+            <avp name="ymax" multiplicity="1"/>
+        </grouped>
+    </avpdefn>
+    <avpdefn name="Category" code="9153" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="UTF8String" multiplicity="1"/>
+    </avpdefn>
+    <avpdefn name="Score" code="9152" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <type type-name="Float64" multiplicity="1"/>
+    </avpdefn>
+    <avpdefn name="Object" code="9151" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <grouped>
+            <avp name="Category" multiplicity="1"/>
+            <avp name="Score" multiplicity="1"/>
+            <avp name="Box" multiplicity="1"/>
+        </grouped>
+    </avpdefn>
+
+    <avpdefn name="Scene-Objects" code="9150" vendor-id="Brentcroft" mandatory="must" protected="mustnot"
+             may-encrypt="no" vendor-bit="must">
+        <grouped>
+            <avp name="Object" multiplicity="0+"/>
+        </grouped>
+    </avpdefn>
+
+
+    <application id="105" vendor-id="Brentcroft" name="AnimalsCount" URI="http://brentcroft.com/animalscount">
+
+        <command name="Get-Camera-Scene" code="1" request="true"/>
+        <command name="Camera-Scene" code="1" request="false">
+            <avp name="Scene-Date" code="9110" vendor="105" multiplicity="1"/>
+            <avp name="Scene-Time" code="9111" vendor="105" multiplicity="1"/>
+            <avp name="Scene-Folder" code="9112" vendor="105" multiplicity="1"/>
+            <avp name="Scene-Filename" code="9113" vendor="105" multiplicity="1"/>
+            <avp name="Scene-Size" code="9100" vendor="105" multiplicity="1"/>
+            <avp name="Scene-Objects" code="9150" vendor="105" multiplicity="1"/>
+        </command>
 
     </application>
+
 
 </dictionary>

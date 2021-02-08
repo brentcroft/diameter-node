@@ -1,6 +1,9 @@
 <answer xmlns:c="jstl">
+
     <avp code="9000" vendor-id="105" value="OK"/>
+
     <c:choose>
+
         <c:when test="${ request.commandCode == 2 }">
             <c:script>
                 var jstl = com.brentcroft.tools.jstl.MapBindings.jstl();
@@ -8,14 +11,16 @@
             </c:script>
             <avp code="9000" vendor-id="105" value="TEMPLATES DROPPED"/>
         </c:when>
+
         <c:when test="${ not empty request.avps.nextResultCode }">
-            <c:script public="true">
+            <c:script>
                 model.put( "nextResultCode", request.avps.nextResultCode )
             </c:script>
             <avp code="9000" vendor-id="105" value="NEXT RESULT CODE: ${ model.nextResultCode }"/>
         </c:when>
     </c:choose>
-    <c:script public="true">
+
+    <c:script>
         var System = java.lang.System;
         System.out.println( model );
     </c:script>

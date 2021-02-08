@@ -5,7 +5,7 @@
 
 	<groupId>com.brentcroft.diameter</groupId>
 	<artifactId>diameter-node</artifactId>
-	<version>0.0.1</version>
+	<version>0.0.2</version>
 
 	<name>Brentcroft Diameter Node</name>
 
@@ -45,8 +45,8 @@
 		<!-- -->
 		<dependency>
 			<groupId>com.brentcroft.tools</groupId>
-			<artifactId>jstl-templates</artifactId>
-			<version>00.01.01</version>
+			<artifactId>el-plates</artifactId>
+			<version>01.01.02</version>
 		</dependency>
 
 		<!--
