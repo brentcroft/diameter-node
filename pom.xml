@@ -13,7 +13,7 @@
 		<jdiameter.version>1.7.1-123</jdiameter.version>
 		<juel.version>2.2.7</juel.version>
 		<!-- -->
-		<log4j.version>2.13.0</log4j.version>
+		<log4j.version>2.17.0</log4j.version>
 		<!-- -->
 		<jgiven.version>0.18.2</jgiven.version>
 		<junit.version>RELEASE</junit.version>
